@@ -4,7 +4,9 @@ import TP2.Llvm;
 import TP2.TypeException;
 import TP2.Utils;
 
-// Concrete class for Expression: add case
+/**
+ * Concrete class for Expression: add case
+ */
   public class AddExpression extends Expression {
     Expression left;
     Expression right;
@@ -14,12 +16,16 @@ import TP2.Utils;
       this.right = right;
     }
 
-    // Pretty-printer
+    /**
+     * Pretty-printer
+     */
     public String pp() {
       return "(" + left.pp() + " + " + right.pp() + ")";
     }
 
-    // IR generation
+    /**
+     * IR generation
+     */
     public RetExpression toIR() throws TypeException {
       RetExpression leftRet = left.toIR();
       RetExpression rightRet = right.toIR();

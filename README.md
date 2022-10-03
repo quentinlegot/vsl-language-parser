@@ -7,5 +7,5 @@ Gitlab.
 
 **Attention !** Vous devez passer votre fork en *privé*.
 
-La version OCaml se situe dans un dépôt séparé :
-https://gitlab.istic.univ-rennes1.fr/cferry/PDS-TP2-ocaml.git.
+[comment]: <> (La version OCaml se situe dans un dépôt séparé :)
+[comment]: <> (https://gitlab.istic.univ-rennes1.fr/cferry/PDS-TP2-ocaml.git.)

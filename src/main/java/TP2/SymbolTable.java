@@ -7,15 +7,22 @@ import TP2.ASD.Type;
 import java.util.HashMap;
 import java.util.List;
 
-// This file contains the symbol table definition.
-// A symbol table contains a set of ident and the
-// corresponding symbols.
-// It can have a parent, containing itself other
-// symbols. If a symbol is not found, the request
-// is forwarded to the parent.
-
+/**
+ * <p>
+ * This file contains the symbol table definition.
+ * </p>
+ * 
+ * A symbol table contains a set of ident and the
+ * corresponding symbols.
+ * 
+ * It can have a parent, containing itself other
+ * symbols. If a symbol is not found, the request
+ * is forwarded to the parent.
+ */
 public class SymbolTable {
-  // Define different symbols
+  /**
+   * Define different symbols
+   */
   public static abstract class Symbol {
     String ident; // minimum, used in the storage map
   }
@@ -23,6 +30,11 @@ public class SymbolTable {
   public static class VariableSymbol extends Symbol {
     Type type;
 
+    /**
+     * A variable symbol
+     * @param type the type of the symbol
+     * @param ident the name of the symbol
+     */
     VariableSymbol(Type type, String ident) {
       this.type = type;
       this.ident = ident;
@@ -40,9 +52,22 @@ public class SymbolTable {
 
   public static class FunctionSymbol extends Symbol {
     Type returnType;
-    List<VariableSymbol> arguments; // arguments is an ordered list of VariableSymbol
-    boolean defined; // false if declared but not defined
+    /**
+     * arguments is an ordered list of VariableSymbol
+     */
+    List<VariableSymbol> arguments;
+    /**
+     * false if declared but not defined
+     */
+    boolean defined; 
 
+    /**
+     * Declares a function symbol
+     * @param returnType return type of the function
+     * @param ident name of the function
+     * @param arguments list of arguments of the function. 
+     * @param defined false if declared but not defined
+     */
     FunctionSymbol(Type returnType, String ident, List<VariableSymbol> arguments, boolean defined) {
       this.returnType = returnType;
       this.ident = ident;
@@ -62,25 +87,42 @@ public class SymbolTable {
     }
   }
 
-  // Store the table as a map
+  
+  /**
+   * Store the table as a map
+   */
   private Map<String, Symbol> table;
-  // Parent table
+  /**
+   * Parent table
+   */
   private SymbolTable parent;
 
-  // Construct a new symbol table
+  /**
+   * Construct a new symbol table
+   */
   public SymbolTable() {
     this.table = new HashMap<String, Symbol>();
     this.parent = null;
   }
 
-  // Construct a new symbol table with a parent
+  /**
+   * <p>
+   * Construct a new symbol table with a parent 
+   * </p>
+   * 
+   * Think of the parent table as the symbols declared outside the current block and this.table as the symbols declared in this block.
+   * @param parent the parent symbol table.
+   */
   public SymbolTable(SymbolTable parent) {
     this.table = new HashMap<String, Symbol>();
     this.parent = parent;
   }
 
-  // Add a new symbol
-  // Returns false if the symbol cannot be added (already in the scope)
+  /**
+   * Add a new symbol
+   * @param sym the symbol to add
+   * @return false if the symbol cannot be added (already in the scope)
+   */
   public boolean add(Symbol sym) {
     Symbol res = this.table.get(sym.ident);
     if(res != null) {
@@ -91,12 +133,22 @@ public class SymbolTable {
     return true;
   }
 
-  // Remove a symbol
-  // Returns false if the symbol is not in the table (without looking at parent's)
+  /**
+   * Remove a symbol
+   * @param ident the name of the symbol to remove
+   * @return false if the symbol is not in the table (without looking at parent's)
+   */
   public boolean remove(String ident) {
     return this.table.remove(ident) != null;
   }
 
+  /**
+   * Return the symbol corresponding to some name.
+   * 
+   * If not found, this function will forward its call to its parent
+   * @param ident the name of the symbol
+   * @return the symbol if found or null
+   */
   public Symbol lookup(String ident) {
     Symbol res = this.table.get(ident);
 

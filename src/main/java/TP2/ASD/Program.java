@@ -10,12 +10,16 @@ public class Program {
       this.e = e;
     }
 
-    // Pretty-printer
+    /**
+     * Pretty-printer
+     */
     public String pp() {
       return e.pp();
     }
 
-    // IR generation
+    /**
+     * IR generation
+     */
     public Llvm.IR toIR() throws TypeException {
       // TODO : change when you extend the language
 

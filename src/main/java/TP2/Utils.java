@@ -9,7 +9,11 @@ public class Utils {
   private static int glob = 0;
   private final static Pattern re = Pattern.compile("\\\\n");
 
-  // return "  " × level, useful for code indentation
+  /**
+   * 
+   * @param level the number of "tabs"
+   * @return 4 spaces × level, useful for code indentation
+   */
   static public String indent(int level) {
     StringBuilder r = new StringBuilder();
     while(level-- > 0)
@@ -17,27 +21,45 @@ public class Utils {
     return r.toString();
   }
 
-  // generate a new unique local identifier (starting with %)
+
+  /**
+   * Generate a new unique local identifier (starting with %)
+   * @return the identifier
+   */
   public static String newtmp() {
     tmp++;
     return "%tmp" + tmp;
   }
-
-  // generate a new unique label starting with str
+ 
+  /**
+   * <p>
+   * generate a new unique label starting with str
+   * </p>
+   * 
+   * ex: newlab("if") may return "if24"
+   * @param str the start of the label
+   * @return the label name
+   */
   public static String newlab(String str) {
     lab++;
     return str + lab;
   }
 
-  // generate a new unique global identifier (starting with @tmp) *)
+  /**
+   * generate a new unique global identifier (starting with @tmp) *)
+   * @param str the start of the name of the identifier
+   * @return the name of the identifier
+   */
   public static String newglob(String str) {
     glob++;
     return str + glob;
   }
 
-  // transform escaped newlines ('\' 'n') into newline form suitable for LLVM
-  // and append the NUL character (end of string)
-  // return a pair: the new String, and its size (according to LLVM)
+  /**
+   * Transform escaped newlines ('\' 'n') into newline form suitable for LLVM and append the NUL character (end of string)
+   * @param str the input string
+   * @return a pair: the new String, and its size (according to LLVM)
+   */
   public static LLVMStringConstant stringTransform(String str) {
     Matcher m = re.matcher(str);
     StringBuffer res = new StringBuffer();
@@ -55,7 +77,9 @@ public class Utils {
     return new LLVMStringConstant(res.toString(), 1 + str.length() - count);
   }
 
-  // Return type of stringTransform
+  /**
+   * Return type of stringTransform
+   */
   public static class LLVMStringConstant {
     String str;
     int length;
