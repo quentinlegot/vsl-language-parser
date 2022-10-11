@@ -1,6 +1,8 @@
 package TP2.ASD;
 
+import TP2.Instruction;
 import TP2.Llvm;
+import TP2.Return;
 import TP2.TypeException;
 
 public class Program {
@@ -26,7 +28,7 @@ public class Program {
       // computes the IR of the expression
       Expression.RetExpression retExpr = e.toIR();
       // add a return instruction
-      Llvm.Instruction ret = new Llvm.Return(retExpr.type.toLlvmType(), retExpr.result);
+      Instruction ret = new Return(retExpr.type.toLlvmType(), retExpr.result);
       retExpr.ir.appendCode(ret);
 
       return retExpr.ir;

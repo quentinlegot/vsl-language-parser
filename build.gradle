@@ -6,8 +6,8 @@ repositories {
 }
 
 dependencies {
-  antlr 'org.antlr:antlr4:4.7.1'
-  testCompile 'junit:junit:4.12'
+  antlr 'org.antlr:antlr4:4.11.1'
+  testCompile 'junit:junit:4.13.2'
 }
 
 generateGrammarSource {

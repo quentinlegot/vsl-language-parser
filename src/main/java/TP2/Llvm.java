@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * and methods to generate its string representation
  */
 public class Llvm {
-  static public class IR {
+  public static class IR {
     /**
      *  IR instructions to be placed before the code (global definitions)
      */ 
@@ -17,6 +17,11 @@ public class Llvm {
      *  IR composing the main code
      */ 
     List<Instruction> code; 
+
+    public IR() {
+      this.header = Llvm.empty();
+      this.code = Llvm.empty();
+    }
 
     /**
      * Creates an IR based on two lists of instructions
@@ -93,8 +98,8 @@ public class Llvm {
   /**
    * Returns a new empty list of instruction, handy
    */
-  static public List<Instruction> empty() {
-    return new ArrayList<Instruction>();
+  public static List<Instruction> empty() {
+    return new ArrayList<>();
   }
 
 
@@ -103,78 +108,15 @@ public class Llvm {
   /**
    * The abstract type representing the LLVM types
    */
-  static public abstract class Type {
+  public abstract static class Type {
     public abstract String toString();
   }
 
-  static public class Int extends Type {
+  public static class Int extends Type {
     public String toString() {
       return "i32";
     }
   }
 
   // TODO : other types
-
-
-  // LLVM IR Instructions
-
-  /**
-   * The abstract type representing the LLVM instructions
-   */
-  static public abstract class Instruction {
-    public abstract String toString();
-  }
-
-  /**
-   * Class representing the add instruction
-   */
-  static public class Add extends Instruction {
-    Type type;
-    String left;
-    String right;
-    String lvalue;
-
-    /**
-     * The add instruction.
-     * lvalue = left + right
-     * @param type The type of lvalue, left and right
-     * @param left the left side of the addition
-     * @param right the right side of the addition
-     * @param lvalue the variable containing the result of the addition
-     */
-    public Add(Type type, String left, String right, String lvalue) {
-      this.type = type;
-      this.left = left;
-      this.right = right;
-      this.lvalue = lvalue;
-    }
-
-    public String toString() {
-      return lvalue + " = add " + type + " " + left + ", " + right +  "\n";
-    }
-  }
-
-  /**
-   * Class representing the return instruction
-   */
-  static public class Return extends Instruction {
-    Type type;
-    String value;
-
-    /**
-     * The return instruction
-     * @param type type of the return value
-     * @param value value to be returned
-     */
-    public Return(Type type, String value) {
-      this.type = type;
-      this.value = value;
-    }
-
-    public String toString() {
-      return "ret " + type + " " + value + "\n";
-    }
-  }
-
-  // TODO : other instructions
 }

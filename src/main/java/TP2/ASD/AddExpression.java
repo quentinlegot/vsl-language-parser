@@ -1,8 +1,6 @@
 package TP2.ASD;
 
-import TP2.Llvm;
-import TP2.TypeException;
-import TP2.Utils;
+import TP2.*;
 
 /**
  * Concrete class for Expression: add case
@@ -43,7 +41,7 @@ import TP2.Utils;
       String result = Utils.newtmp();
 
       // new add instruction result = left + right
-      Llvm.Instruction add = new Llvm.Add(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
+      Instruction add = new Add(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
 
       // append this instruction
       leftRet.ir.appendCode(add);
