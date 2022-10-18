@@ -1,0 +1,4 @@
+FUNC VOID main() {
+    INT x = 5 + 7 * 3
+    x = 7
+}

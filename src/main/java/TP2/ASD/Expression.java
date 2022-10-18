@@ -13,7 +13,7 @@ public abstract class Expression {
     /**
      * Object returned by toIR on expressions, with IR + synthesized attributes
      */
-    static public class RetExpression {
+    public static class RetExpression {
       /**
        * The LLVM IR:
        */

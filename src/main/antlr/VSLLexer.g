@@ -21,12 +21,22 @@ fragment ASCII  : ~('\n'|'"');
 // keywords
 LP    : '(' ; // Left parenthesis
 RP    : ')' ;
-PLUS      : '+'      ;
+PLUS  : '+' ;
 MUL   : '*' ;
 DIV   : '/' ;
 MINUS : '-' ;
+EQUALS : '=';
+COMMA : ',' ;
+LB : '{' ;
+RB : '}' ;
 
 // TODO : other keywords
+// var types
+INT : 'INT' ;
+
+// instructions
+FUNC: 'FUNC' ;
+VOID: 'VOID' ;
 
 // other tokens (no conflict with keywords in VSL)
 IDENT   : LETTER (LETTER|DIGIT)*;

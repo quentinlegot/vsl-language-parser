@@ -23,7 +23,7 @@ public class SymbolTable {
   /**
    * Define different symbols
    */
-  public static abstract class Symbol {
+  public abstract static class Symbol {
     String ident; // minimum, used in the storage map
   }
 
@@ -101,7 +101,7 @@ public class SymbolTable {
    * Construct a new symbol table
    */
   public SymbolTable() {
-    this.table = new HashMap<String, Symbol>();
+    this.table = new HashMap<>();
     this.parent = null;
   }
 
@@ -114,7 +114,7 @@ public class SymbolTable {
    * @param parent the parent symbol table.
    */
   public SymbolTable(SymbolTable parent) {
-    this.table = new HashMap<String, Symbol>();
+    this.table = new HashMap<>();
     this.parent = parent;
   }
 
