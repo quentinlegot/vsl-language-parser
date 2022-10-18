@@ -1,15 +1,14 @@
 package TP2.ASD;
 
 import TP2.Llvm;
-import TP2.Return;
 import TP2.TypeException;
 
 import java.util.List;
 
 public class Program {
-    List<Function> functions; // What a program contains.
+    List<FunctionAsd> functions; // What a program contains.
 
-    public Program(List<Function> functions) {
+    public Program(List<FunctionAsd> functions) {
       this.functions = functions;
     }
 
@@ -18,7 +17,7 @@ public class Program {
      */
     public String pp() {
         StringBuilder str = new StringBuilder();
-        for(Function f : functions) {
+        for(FunctionAsd f : functions) {
             str.append(f.pp());
         }
       return str.toString();
@@ -29,8 +28,8 @@ public class Program {
      */
     public Llvm.IR toIR() throws TypeException {
         Llvm.IR ir = new Llvm.IR(Llvm.empty(), Llvm.empty());
-        for(Function f : functions) {
-            Function.RetExpression ret = f.toIR();
+        for(FunctionAsd f : functions) {
+            FunctionAsd.RetExpression ret = f.toIR();
             // ir.appendCode(new Return(Llvm.Type, ret.result));
         }
         return ir;

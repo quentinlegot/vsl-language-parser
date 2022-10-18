@@ -4,14 +4,14 @@ import TP2.Llvm;
 
 import java.util.List;
 
-public class Function {
+public class FunctionAsd {
 
     private final String returnType;
     private final String name;
     private final List<String> parameters;
     private final Block block;
 
-    public Function(String returnType, String name, List<String> parameters, Block block) {
+    public FunctionAsd(String returnType, String name, List<String> parameters, Block block) {
         this.returnType = returnType;
         this.name = name;
         this.parameters = parameters;
@@ -30,7 +30,7 @@ public class Function {
         return str.toString();
     }
 
-    public Function.RetExpression toIR() {
+    public FunctionAsd.RetExpression toIR() {
         RetExpression blockRet = block.toIR();
         if(this.returnType.equals("INT")) {
             blockRet.type = new Int();

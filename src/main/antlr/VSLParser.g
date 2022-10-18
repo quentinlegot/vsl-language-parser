@@ -22,7 +22,7 @@ program returns [ TP2.ASD.Program out ]
     : e=function_list EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
     ;
 
-function_list returns [ List<TP2.ASD.Function> out ]
+function_list returns [ List<TP2.ASD.FunctionAsd> out ]
     : f=function fl=function_list {
         $out = $fl.out;
         ((LinkedList)$out).addFirst($f.out);
@@ -33,14 +33,14 @@ function_list returns [ List<TP2.ASD.Function> out ]
     }
     ;
 
-function returns [ TP2.ASD.Function out ]
+function returns [ TP2.ASD.FunctionAsd out ]
     : FUNC r=return_type t=IDENT LP p=function_parameters_list RP b=block
     {
-        $out = new Function($r.out, $t.text, $p.parameters, $b.out);
+        $out = new FunctionAsd($r.out, $t.text, $p.parameters, $b.out);
     }
     | FUNC r=return_type t=IDENT LP RP b=block
     {
-        $out = new Function($r.out, $t.text, Collections.emptyList(), $b.out);
+        $out = new FunctionAsd($r.out, $t.text, Collections.emptyList(), $b.out);
     }
     ;
 
