@@ -16,7 +16,7 @@ public class AffectExpression extends Expression {
     }
     @Override
     public String pp() {
-        return "INT " + name + " = " + expression.pp();
+        return "INT " + name + " = " + expression.pp() + "\n";
     }
 
     @Override

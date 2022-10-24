@@ -10,13 +10,25 @@ options {
 
   import java.util.stream.Collectors;
   import java.util.Arrays;
+  import java.util.LinkedList;
 }
 
 
 // TODO : other rules
 
 program returns [TP2.ASD.Program out]
-    : e=instruction EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+    : e=instructionList EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+    ;
+
+instructionList returns [LinkedList<TP2.ASD.Expression> out]
+    : i=instruction il=instructionList {
+        $out = $il.out;
+        $out.addFirst($i.out);
+    }
+    | i=instruction {
+        $out = new LinkedList<>();
+        $out.add($i.out);
+    }
     ;
 
 instruction returns [TP2.ASD.Expression out]

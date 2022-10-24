@@ -5,10 +5,12 @@ import TP2.Llvm;
 import TP2.Return;
 import TP2.TypeException;
 
-public class Program {
-    Expression e; // What a program contains. TODO : change when you extend the language
+import java.util.List;
 
-    public Program(Expression e) {
+public class Program {
+    List<Expression> e; // What a program contains. TODO : change when you extend the language
+
+    public Program(List<Expression> e) {
       this.e = e;
     }
 
@@ -16,21 +18,29 @@ public class Program {
      * Pretty-printer
      */
     public String pp() {
-      return e.pp();
+        StringBuilder str = new StringBuilder();
+        for(Expression ex : e) {
+            str.append(ex.pp());
+        }
+        return str.toString();
     }
 
     /**
      * IR generation
      */
     public Llvm.IR toIR() throws TypeException {
-      // TODO : change when you extend the language
+        // computes the IR of the expression
+        RetExpression start = e.get(0).toIR();
+        if(e.size() > 1) {
+           for(int i = 1; i < e.size(); i++) {
+               RetExpression current = e.get(i).toIR();
+               start.ir.append(current.ir);
+           }
+        }
+        // add a return instruction
+        Instruction retExpr = new Return(start.type.toLlvmType(), start.result);
+        start.ir.appendCode(retExpr);
 
-      // computes the IR of the expression
-      RetExpression retExpr = e.toIR();
-      // add a return instruction
-      Instruction ret = new Return(retExpr.type.toLlvmType(), retExpr.result);
-      retExpr.ir.appendCode(ret);
-
-      return retExpr.ir;
+        return start.ir;
     }
   }
