@@ -25,6 +25,7 @@ PLUS      : '+'      ;
 MUL   : '*' ;
 DIV   : '/' ;
 MINUS : '-' ;
+EQUAL : '=' ;
 
 // TODO : other keywords
 

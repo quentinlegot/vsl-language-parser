@@ -16,14 +16,25 @@ options {
 // TODO : other rules
 
 program returns [TP2.ASD.Program out]
-    : e=expression EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+    : e=instruction EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+    ;
+
+instruction returns [TP2.ASD.Expression out]
+    : i=IDENT EQUAL is=instruction {
+        $out = new TP2.ASD.AffectExpression($i.text, $is.out);
+    }
+    | e=expression {
+        $out = $e.out;
+    }
     ;
 
 expression returns [TP2.ASD.Expression out]
-    : l=expression MUL  r=expression  { $out = new TP2.ASD.MulExpression($l.out, $r.out); }
+    : MINUS e=expression { $out= new TP2.ASD.MulExpression(new TP2.ASD.IntegerExpression(-1), $e.out); }
+    | l=expression MUL  r=expression  { $out = new TP2.ASD.MulExpression($l.out, $r.out); }
     | l=expression DIV r=expression   { $out = new TP2.ASD.DivExpression($l.out, $r.out); }
     | l=expression PLUS r=expression  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
     | l=expression MINUS r=expression { $out = new TP2.ASD.MinusExpression($l.out, $r.out); }
+    | LP e=expression RP { $out=$e.out; }
     | f=factor { $out = $f.out; }
     // TODO : that's all?
     ;

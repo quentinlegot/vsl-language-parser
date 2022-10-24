@@ -26,7 +26,7 @@ public class Program {
       // TODO : change when you extend the language
 
       // computes the IR of the expression
-      Expression.RetExpression retExpr = e.toIR();
+      RetExpression retExpr = e.toIR();
       // add a return instruction
       Instruction ret = new Return(retExpr.type.toLlvmType(), retExpr.result);
       retExpr.ir.appendCode(ret);
