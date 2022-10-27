@@ -27,7 +27,7 @@ DIV   : '/' ;
 MINUS : '-' ;
 EQUAL : '=' ;
 
-// TODO : other keywords
+INT : 'INT';
 
 // other tokens (no conflict with keywords in VSL)
 IDENT   : LETTER (LETTER|DIGIT)*;

@@ -31,14 +31,15 @@ public class Program {
     public Llvm.IR toIR() throws TypeException {
         // computes the IR of the expression
         RetExpression start = e.get(0).toIR();
+        RetExpression last = start;
         if(e.size() > 1) {
            for(int i = 1; i < e.size(); i++) {
-               RetExpression current = e.get(i).toIR();
-               start.ir.append(current.ir);
+               last = e.get(i).toIR();
+               start.ir.append(last.ir);
            }
         }
         // add a return instruction
-        Instruction retExpr = new Return(start.type.toLlvmType(), start.result);
+        Instruction retExpr = new Return(last.type.toLlvmType(), last.result);
         start.ir.appendCode(retExpr);
 
         return start.ir;

@@ -32,11 +32,29 @@ instructionList returns [LinkedList<TP2.ASD.Expression> out]
     ;
 
 instruction returns [TP2.ASD.Expression out]
-    : i=IDENT EQUAL is=instruction {
+    : a=affectation {
+        $out = $a.out;
+    }
+    | d=declaration {
+        $out = $d.out;
+    }
+    | e=expression {
+        $out = $e.out;
+    }
+    ;
+
+affectation returns [TP2.ASD.Expression out]
+    : i=IDENT EQUAL is=affectation {
         $out = new TP2.ASD.AffectExpression($i.text, $is.out);
     }
     | e=expression {
         $out = $e.out;
+    }
+    ;
+
+declaration returns [TP2.ASD.Expression out]
+    : t=type i=IDENT EQUAL is=affectation {
+        $out = new TP2.ASD.DeclareExpression($t.out, $i.text, $is.out);
     }
     ;
 
@@ -59,4 +77,9 @@ factor returns [TP2.ASD.Expression out]
 primary returns [TP2.ASD.Expression out]
     : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
     // TODO : that's all?
+    ;
+
+type returns [ TP2.ASD.Type out ]
+    : i=INT { $out = new TP2.ASD.Int(); }
+    // TODO add more types (like char)
     ;

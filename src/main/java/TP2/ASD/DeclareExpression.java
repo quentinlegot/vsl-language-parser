@@ -1,22 +1,22 @@
 package TP2.ASD;
 
-import TP2.Affect;
-import TP2.Instruction;
-import TP2.TypeException;
-import TP2.Utils;
+import TP2.*;
 
-public class AffectExpression extends Expression {
+public class DeclareExpression extends Expression {
 
+    private final Type type;
     private final String name;
     private final Expression expression;
 
-    public AffectExpression(String name, Expression expression) {
+    public DeclareExpression(Type type, String name, Expression expression) {
+        this.type = type;
         this.name = name;
         this.expression = expression;
     }
+
     @Override
     public String pp() {
-        return name + " = " + expression.pp() + "\n";
+        return "INT " + name + " = " + expression.pp() + "\n";
     }
 
     @Override
@@ -24,8 +24,8 @@ public class AffectExpression extends Expression {
         RetExpression ret = expression.toIR();
 
         String result = Utils.newtmp();
-        Instruction affect = new Affect(ret.type.toLlvmType(), result, ret.result);
-        ret.ir.appendCode(affect);
+        Instruction declare = new Declare(type.toLlvmType(), result, ret.result);
+        ret.ir.appendCode(declare);
         return new RetExpression(ret.ir, new Int(), result);
     }
 }
