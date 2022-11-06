@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.junit.*;
 
-import TP2.ASD.Int;
+import TP2.ASD.type.Int;
 
 import static org.junit.Assert.assertNotEquals;
 

@@ -1,9 +1,6 @@
 package TP2.ASD;
 
-import TP2.Instruction;
-import TP2.Llvm;
-import TP2.Return;
-import TP2.TypeException;
+import TP2.*;
 
 import java.util.List;
 
@@ -30,18 +27,24 @@ public class Program {
      */
     public Llvm.IR toIR() throws TypeException {
         // computes the IR of the expression
-        RetExpression start = e.get(0).toIR();
-        RetExpression last = start;
+        SymbolTable rootTable = new SymbolTable();
+        Expression start = e.get(0);
+        start.setTable(rootTable);
+        RetExpression startRet = start.toIR();
+        RetExpression last = startRet;
+
         if(e.size() > 1) {
            for(int i = 1; i < e.size(); i++) {
-               last = e.get(i).toIR();
-               start.ir.append(last.ir);
+               Expression ex = e.get(i);
+               ex.setTable(rootTable);
+               last = ex.toIR();
+               startRet.ir.append(last.ir);
            }
         }
         // add a return instruction
         Instruction retExpr = new Return(last.type.toLlvmType(), last.result);
-        start.ir.appendCode(retExpr);
+        startRet.ir.appendCode(retExpr);
 
-        return start.ir;
+        return startRet.ir;
     }
   }

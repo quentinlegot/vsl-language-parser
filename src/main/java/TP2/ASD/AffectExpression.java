@@ -1,9 +1,7 @@
 package TP2.ASD;
 
-import TP2.Affect;
-import TP2.Instruction;
-import TP2.TypeException;
-import TP2.Utils;
+import TP2.*;
+import TP2.ASD.type.Int;
 
 public class AffectExpression extends Expression {
 
@@ -21,11 +19,13 @@ public class AffectExpression extends Expression {
 
     @Override
     public RetExpression toIR() throws TypeException {
+        expression.setTable(table);
         RetExpression ret = expression.toIR();
-
-        String result = Utils.newtmp();
-        Instruction affect = new Affect(ret.type.toLlvmType(), result, ret.result);
+        SymbolTable.Symbol symbol = table.lookup(name);
+        if(symbol == null)
+            throw new NullPointerException("name variable is undeclared");
+        Instruction affect = new Affect(ret.type.toLlvmType(), name, ret.result);
         ret.ir.appendCode(affect);
-        return new RetExpression(ret.ir, new Int(), result);
+        return new RetExpression(ret.ir, new Int(), name);
     }
 }

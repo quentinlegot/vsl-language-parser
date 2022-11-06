@@ -21,7 +21,7 @@ fragment ASCII  : ~('\n'|'"');
 // keywords
 LP    : '(' ; // Left parenthesis
 RP    : ')' ;
-PLUS      : '+'      ;
+PLUS  : '+' ;
 MUL   : '*' ;
 DIV   : '/' ;
 MINUS : '-' ;

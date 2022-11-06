@@ -1,6 +1,8 @@
 package TP2.ASD;
 
 import TP2.*;
+import TP2.ASD.type.Int;
+import TP2.ASD.type.Type;
 
 public class DeclareExpression extends Expression {
 
@@ -21,11 +23,11 @@ public class DeclareExpression extends Expression {
 
     @Override
     public RetExpression toIR() throws TypeException {
+        expression.setTable(table);
         RetExpression ret = expression.toIR();
-
-        String result = Utils.newtmp();
-        Instruction declare = new Declare(type.toLlvmType(), result, ret.result);
+        table.add(new SymbolTable.VariableSymbol(type, name));
+        Instruction declare = new Declare(type.toLlvmType(), name, ret.result);
         ret.ir.appendCode(declare);
-        return new RetExpression(ret.ir, new Int(), result);
+        return new RetExpression(ret.ir, new Int(), name);
     }
 }

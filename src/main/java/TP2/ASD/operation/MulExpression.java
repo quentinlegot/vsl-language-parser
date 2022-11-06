@@ -1,6 +1,9 @@
-package TP2.ASD;
+package TP2.ASD.operation;
 
 import TP2.*;
+import TP2.ASD.Expression;
+import TP2.ASD.RetExpression;
+import TP2.operation.Mul;
 
 public class MulExpression extends Expression {
 

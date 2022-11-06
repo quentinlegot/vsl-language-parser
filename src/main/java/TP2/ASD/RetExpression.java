@@ -1,5 +1,6 @@
 package TP2.ASD;
 
+import TP2.ASD.type.Type;
 import TP2.Llvm;
 
 /**
@@ -21,7 +22,7 @@ public class RetExpression {
      * The name containing the expression's result
      * (either an identifier, or an immediate value)
      */
-    public String result; //
+    public String result;
 
     /**
      * Construct the object returned by toIR() on expressions.

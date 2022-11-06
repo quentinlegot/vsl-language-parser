@@ -1,6 +1,12 @@
-package TP2;
+package TP2.operation;
 
-public class Minus extends Instruction {
+import TP2.Instruction;
+import TP2.Llvm;
+
+/**
+ * Class representing the add instruction
+ */
+public class Mul extends Instruction {
     Llvm.Type type;
     String left;
     String right;
@@ -14,15 +20,15 @@ public class Minus extends Instruction {
      * @param right the right side of the addition
      * @param lvalue the variable containing the result of the addition
      */
-    public Minus(Llvm.Type type, String left, String right, String lvalue) {
+    public Mul(Llvm.Type type, String left, String right, String lvalue) {
         this.type = type;
         this.left = left;
         this.right = right;
         this.lvalue = lvalue;
     }
 
+    @Override
     public String toString() {
-        return lvalue + " = minus " + type + " " + left + ", " + right +  "\n";
+        return lvalue + " = mul " + type + " " + left + ", " + right +  "\n";
     }
-
 }
