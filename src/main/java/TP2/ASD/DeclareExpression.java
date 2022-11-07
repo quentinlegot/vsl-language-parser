@@ -25,6 +25,8 @@ public class DeclareExpression extends Expression {
     public RetExpression toIR() throws TypeException {
         expression.setTable(table);
         RetExpression ret = expression.toIR();
+        if(table.lookup(name) != null)
+            throw new IllegalStateException(name + " has already been declared");
         table.add(new SymbolTable.VariableSymbol(type, name));
         Instruction declare = new Declare(type.toLlvmType(), name, ret.result);
         ret.ir.appendCode(declare);
