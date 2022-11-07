@@ -1,7 +1,7 @@
 package TP2;
 
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
   private static int tmp = 0;
@@ -14,7 +14,7 @@ public class Utils {
    * @param level the number of "tabs"
    * @return 4 spaces × level, useful for code indentation
    */
-  static public String indent(int level) {
+  public static String indent(int level) {
     StringBuilder r = new StringBuilder();
     while(level-- > 0)
       r.append("  ");

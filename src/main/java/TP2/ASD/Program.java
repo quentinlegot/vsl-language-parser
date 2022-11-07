@@ -1,15 +1,14 @@
 package TP2.ASD;
 
-import TP2.Llvm;
-import TP2.TypeException;
+import TP2.*;
 
 import java.util.List;
 
 public class Program {
-    List<FunctionAsd> functions; // What a program contains.
+    List<Expression> e; // What a program contains. TODO : change when you extend the language
 
-    public Program(List<FunctionAsd> functions) {
-      this.functions = functions;
+    public Program(List<Expression> e) {
+      this.e = e;
     }
 
     /**
@@ -17,21 +16,35 @@ public class Program {
      */
     public String pp() {
         StringBuilder str = new StringBuilder();
-        for(FunctionAsd f : functions) {
-            str.append(f.pp());
+        for(Expression ex : e) {
+            str.append(ex.pp());
         }
-      return str.toString();
+        return str.toString();
     }
 
     /**
      * IR generation
      */
     public Llvm.IR toIR() throws TypeException {
-        Llvm.IR ir = new Llvm.IR(Llvm.empty(), Llvm.empty());
-        for(FunctionAsd f : functions) {
-            FunctionAsd.RetExpression ret = f.toIR();
-            // ir.appendCode(new Return(Llvm.Type, ret.result));
+        // computes the IR of the expression
+        SymbolTable rootTable = new SymbolTable();
+        Expression start = e.get(0);
+        start.setTable(rootTable);
+        RetExpression startRet = start.toIR();
+        RetExpression last = startRet;
+
+        if(e.size() > 1) {
+           for(int i = 1; i < e.size(); i++) {
+               Expression ex = e.get(i);
+               ex.setTable(rootTable);
+               last = ex.toIR();
+               startRet.ir.append(last.ir);
+           }
         }
-        return ir;
+        // add a return instruction
+        Instruction retExpr = new Return(last.type.toLlvmType(), last.result);
+        startRet.ir.appendCode(retExpr);
+
+        return startRet.ir;
     }
   }

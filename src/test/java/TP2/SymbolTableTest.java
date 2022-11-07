@@ -1,10 +1,10 @@
 package TP2;
 
-import java.util.ArrayList;
+import TP2.ASD.type.Int;
 import junit.framework.TestCase;
-import org.junit.*;
+import org.junit.Test;
 
-import TP2.ASD.Int;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertNotEquals;
 

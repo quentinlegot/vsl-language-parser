@@ -1,11 +1,10 @@
 package TP2;
 
-import java.util.Map;
-
-import TP2.ASD.Type;
+import TP2.ASD.type.Type;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -35,7 +34,7 @@ public class SymbolTable {
      * @param type the type of the symbol
      * @param ident the name of the symbol
      */
-    VariableSymbol(Type type, String ident) {
+    public VariableSymbol(Type type, String ident) {
       this.type = type;
       this.ident = ident;
     }

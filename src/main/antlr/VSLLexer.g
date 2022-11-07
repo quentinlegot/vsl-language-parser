@@ -25,7 +25,7 @@ PLUS  : '+' ;
 MUL   : '*' ;
 DIV   : '/' ;
 MINUS : '-' ;
-EQUALS : '=';
+EQUAL : '=';
 COMMA : ',' ;
 LB : '{' ;
 RB : '}' ;

@@ -1,9 +1,10 @@
-package TP2;
+package TP2.operation;
 
-/**
- * Class representing the add instruction
- */
-public class Add extends Instruction {
+import TP2.Instruction;
+import TP2.Llvm;
+
+public class Div extends Instruction {
+
     Llvm.Type type;
     String left;
     String right;
@@ -17,14 +18,15 @@ public class Add extends Instruction {
      * @param right the right side of the addition
      * @param lvalue the variable containing the result of the addition
      */
-    public Add(Llvm.Type type, String left, String right, String lvalue) {
+    public Div(Llvm.Type type, String left, String right, String lvalue) {
         this.type = type;
         this.left = left;
         this.right = right;
         this.lvalue = lvalue;
     }
 
+    @Override
     public String toString() {
-        return lvalue + " = add " + type + " " + left + ", " + right +  "\n";
+        return lvalue + " = div " + type + " " + left + ", " + right +  "\n";
     }
 }

@@ -1,6 +1,6 @@
 package TP2;
 
-public class Affect extends Instruction {
+public class Declare extends Instruction {
 
     private final String ident;
     Llvm.Type type;
@@ -11,7 +11,7 @@ public class Affect extends Instruction {
      * @param type type of the return value
      * @param value value to be returned
      */
-    public Affect(Llvm.Type type, String ident, String value) {
+    public Declare(Llvm.Type type, String ident, String value) {
         this.type = type;
         this.ident = ident;
         this.value = value;

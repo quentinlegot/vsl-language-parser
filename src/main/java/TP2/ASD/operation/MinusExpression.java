@@ -1,6 +1,11 @@
-package TP2.ASD;
+package TP2.ASD.operation;
 
-import TP2.*;
+import TP2.ASD.Expression;
+import TP2.ASD.RetExpression;
+import TP2.Instruction;
+import TP2.TypeException;
+import TP2.Utils;
+import TP2.operation.Minus;
 
 public class MinusExpression extends Expression {
 

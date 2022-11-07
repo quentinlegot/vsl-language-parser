@@ -1,5 +1,7 @@
 package TP2.ASD;
 
+import TP2.ASD.type.Int;
+import TP2.ASD.type.Type;
 import TP2.Llvm;
 
 import java.util.List;

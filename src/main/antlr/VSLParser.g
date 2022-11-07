@@ -11,65 +11,19 @@ options {
   import java.util.stream.Collectors;
   import java.util.Arrays;
   import java.util.LinkedList;
-  import java.util.Collections;
-  import TP2.ASD.*;
 }
 
 
 // TODO : other rules
 
-program returns [ TP2.ASD.Program out ]
-    : e=function_list EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+program returns [TP2.ASD.Program out]
+    : e=instructionList EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
     ;
 
-function_list returns [ List<TP2.ASD.FunctionAsd> out ]
-    : f=function fl=function_list {
-        $out = $fl.out;
-        ((LinkedList)$out).addFirst($f.out);
-    }
-    | f=function {
-        $out = new LinkedList<>();
-        $out.add($f.out);
-    }
-    ;
-
-function returns [ TP2.ASD.FunctionAsd out ]
-    : FUNC r=return_type t=IDENT LP p=function_parameters_list RP b=block
-    {
-        $out = new FunctionAsd($r.out, $t.text, $p.parameters, $b.out);
-    }
-    | FUNC r=return_type t=IDENT LP RP b=block
-    {
-        $out = new FunctionAsd($r.out, $t.text, Collections.emptyList(), $b.out);
-    }
-    ;
-
-return_type returns [ String out ]
-    : t=type { $out = $t.text; }
-    | v=VOID { $out = $v.text; }
-    ;
-
-function_parameters_list returns [ List<String> parameters ]
-    : t=TEXT COMMA f=function_parameters_list
-    {
-        $parameters = $f.parameters;
-        ((LinkedList) $parameters).addFirst($t.text);
-    }
-    | t=TEXT
-    {
-        $parameters = new LinkedList<>();
-        $parameters.add($t.text);
-    }
-    ;
-
-block returns [ TP2.ASD.Block out ]
-    : LB i=instructions_list RB { $out = new Block($i.out); }
-    ;
-
-instructions_list returns [ List<TP2.ASD.AsdInstruction> out ]
-    : i=instruction il=instructions_list {
+instructionList returns [LinkedList<TP2.ASD.Expression> out]
+    : i=instruction il=instructionList {
         $out = $il.out;
-        ((LinkedList) $out).addFirst($i.out);
+        $out.addFirst($i.out);
     }
     | i=instruction {
         $out = new LinkedList<>();
@@ -77,26 +31,39 @@ instructions_list returns [ List<TP2.ASD.AsdInstruction> out ]
     }
     ;
 
-instruction returns [ TP2.ASD.AsdInstruction out ]
-    : a=affectations { $out = $a.out; }
+instruction returns [TP2.ASD.Expression out]
+    : a=affectation {
+        $out = $a.out;
+    }
+    | d=declaration {
+        $out = $d.out;
+    }
+    | e=expression {
+        $out = $e.out;
+    }
     ;
 
-affectations returns [TP2.ASD.AsdInstruction out]
-    : INT i=IDENT EQUALS e=expression { $out= new TP2.ASD.AffectInstruction(true, $i.text, $e.out); }
-    | i=IDENT EQUALS e=expression { $out= new TP2.ASD.AffectInstruction(false, $i.text, $e.out); }
+affectation returns [TP2.ASD.Expression out]
+    : i=IDENT EQUAL is=affectation {
+        $out = new TP2.ASD.AffectExpression($i.text, $is.out);
+    }
+    | e=expression {
+        $out = $e.out;
+    }
     ;
 
-type returns [ String out ]
-    : i=INT { $out = $i.text; }
-    // TODO add more types (like char)
+declaration returns [TP2.ASD.Expression out]
+    : t=type i=IDENT EQUAL is=affectation {
+        $out = new TP2.ASD.DeclareExpression($t.out, $i.text, $is.out);
+    }
     ;
 
 expression returns [TP2.ASD.Expression out]
-    : MINUS e=expression { $out= new TP2.ASD.MulExpression(new TP2.ASD.IntegerExpression(-1), $e.out); }
-    | l=expression PLUS r=expression  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
-    | l=expression MINUS r=expression { $out = new TP2.ASD.MinusExpression($l.out, $r.out); }
-    | l=expression MUL  r=expression  { $out = new TP2.ASD.MulExpression($l.out, $r.out); }
-    | l=expression DIV r=expression   { $out = new TP2.ASD.DivExpression($l.out, $r.out); }
+    : MINUS e=expression { $out= new TP2.ASD.operation.MulExpression(new TP2.ASD.IntegerExpression(-1), $e.out); }
+    | l=expression MUL  r=expression  { $out = new TP2.ASD.operation.MulExpression($l.out, $r.out); }
+    | l=expression DIV r=expression   { $out = new TP2.ASD.operation.DivExpression($l.out, $r.out); }
+    | l=expression PLUS r=expression  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }
+    | l=expression MINUS r=expression { $out = new TP2.ASD.operation.MinusExpression($l.out, $r.out); }
     | LP e=expression RP { $out=$e.out; }
     | f=factor { $out = $f.out; }
     ;
@@ -109,4 +76,9 @@ factor returns [TP2.ASD.Expression out]
 primary returns [TP2.ASD.Expression out]
     : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
     // TODO : that's all?
+    ;
+
+type returns [ TP2.ASD.type.Type out ]
+    : i=INT { $out = new TP2.ASD.type.Int(); }
+    // TODO add more types (like char)
     ;
