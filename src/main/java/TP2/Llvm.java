@@ -1,7 +1,7 @@
 package TP2;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This file contains a simple LLVM IR representation
@@ -115,6 +115,20 @@ public class Llvm {
   public static class Int extends Type {
     public String toString() {
       return "i32";
+    }
+  }
+
+  public static class Tab<E extends Type> extends Type {
+
+    public final E type;
+
+    public Tab(E type) {
+      this.type = type;
+    }
+
+    @Override
+    public String toString() {
+      return type + "*";
     }
   }
 

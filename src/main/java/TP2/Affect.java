@@ -19,6 +19,6 @@ public class Affect extends Instruction {
 
     @Override
     public String toString() {
-        return ident + " = " + type + " " + value + "\n";
+        return "store " + type.toString() + " " +  value + ", " + type.toString() + "* %" + ident + "\n";
     }
 }

@@ -30,6 +30,8 @@ import TP2.operation.Add;
      * IR generation
      */
     public RetExpression toIR() throws TypeException {
+      left.setTable(table);
+      right.setTable(table);
       RetExpression leftRet = left.toIR();
       RetExpression rightRet = right.toIR();
 

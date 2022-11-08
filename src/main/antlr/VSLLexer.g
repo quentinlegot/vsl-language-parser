@@ -26,9 +26,12 @@ MUL   : '*' ;
 DIV   : '/' ;
 MINUS : '-' ;
 EQUAL : '=';
+COLON : ':';
 COMMA : ',' ;
 LB : '{' ;
 RB : '}' ;
+LSB : '[' ;
+RSB : ']' ;
 
 // TODO : other keywords
 // var types

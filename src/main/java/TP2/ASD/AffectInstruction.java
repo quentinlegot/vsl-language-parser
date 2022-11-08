@@ -17,7 +17,7 @@ public class AffectInstruction extends AsdInstruction {
         String str = "";
         if(newVar)
             str += "INT ";
-        str += varName + " = " + expression.pp();
+        str += varName + " := " + expression.pp();
         return str;
     }
 }

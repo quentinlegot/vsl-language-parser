@@ -24,6 +24,8 @@ public class MinusExpression extends Expression {
         return "(" + left.pp() + " - " + right.pp() + ")";
     }
     public RetExpression toIR() throws TypeException {
+        left.setTable(table);
+        right.setTable(table);
         RetExpression leftRet = left.toIR();
         RetExpression rightRet = right.toIR();
 
