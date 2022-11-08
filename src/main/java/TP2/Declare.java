@@ -3,6 +3,7 @@ package TP2;
 public class Declare extends Instruction {
 
     private final String ident;
+    private final int number;
     Llvm.Type type;
     String value;
 
@@ -11,14 +12,21 @@ public class Declare extends Instruction {
      * @param type type of the return value
      * @param value value to be returned
      */
-    public Declare(Llvm.Type type, String ident, String value) {
+    public Declare(Llvm.Type type, String ident, String value, int number) {
         this.type = type;
         this.ident = ident;
         this.value = value;
+        this.number = number;
     }
 
     @Override
     public String toString() {
-        return ident + " = " + type + " " + value + "\n";
+        String str = value + "%" + ident + " =  alloca ";
+        if(number == 1)
+            str += type + "\n";
+        else {
+            str += "[" + number + " x " + type + "]\n";
+        }
+        return str;
     }
 }

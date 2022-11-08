@@ -44,25 +44,25 @@ instruction returns [TP2.ASD.Expression out]
     ;
 
 affectation returns [TP2.ASD.Expression out]
-    : i=IDENT EQUAL is=affectation {
+    : i=IDENT EQUAL is=expression {
         $out = new TP2.ASD.AffectExpression($i.text, $is.out);
-    }
-    | e=expression {
-        $out = $e.out;
     }
     ;
 
 declaration returns [TP2.ASD.Expression out]
-    : t=type i=IDENT EQUAL is=affectation {
-        $out = new TP2.ASD.DeclareExpression($t.out, $i.text, $is.out);
-    }
+    : t=type { LinkedList<TP2.ASD.DeclareExpression> l = new LinkedList<>(); }
+    (((i=IDENT { l.add(new TP2.ASD.DeclareExpression($t.out, $i.text, l)); })
+        | (i=IDENT LSB INTEGER RSB { l.add(new TP2.ASD.DeclareExpression($t.out, $i.text, l, new TP2.ASD.IntegerExpression($INTEGER.int))); })) COMMA? )*
+     {
+        $out = l.removeLast();
+     }
     ;
 
 expression returns [TP2.ASD.Expression out]
     : MINUS e=expression { $out= new TP2.ASD.operation.MulExpression(new TP2.ASD.IntegerExpression(-1), $e.out); }
     | l=expression MUL  r=expression  { $out = new TP2.ASD.operation.MulExpression($l.out, $r.out); }
     | l=expression DIV r=expression   { $out = new TP2.ASD.operation.DivExpression($l.out, $r.out); }
-    | l=expression PLUS r=expression  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }
+    | l=expression PLUS r=expression  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }expression
     | l=expression MINUS r=expression { $out = new TP2.ASD.operation.MinusExpression($l.out, $r.out); }
     | LP e=expression RP { $out=$e.out; }
     | f=factor { $out = $f.out; }

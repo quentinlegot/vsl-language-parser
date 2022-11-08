@@ -29,6 +29,8 @@ EQUAL : '=';
 COMMA : ',' ;
 LB : '{' ;
 RB : '}' ;
+LSB : '[' ;
+RSB : ']' ;
 
 // TODO : other keywords
 // var types
