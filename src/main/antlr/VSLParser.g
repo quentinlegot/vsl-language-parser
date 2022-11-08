@@ -62,7 +62,7 @@ expression returns [TP2.ASD.Expression out]
     : MINUS e=expression { $out= new TP2.ASD.operation.MulExpression(new TP2.ASD.IntegerExpression(-1), $e.out); }
     | l=expression MUL  r=expression  { $out = new TP2.ASD.operation.MulExpression($l.out, $r.out); }
     | l=expression DIV r=expression   { $out = new TP2.ASD.operation.DivExpression($l.out, $r.out); }
-    | l=expression PLUS r=expression  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }expression
+    | l=expression PLUS r=expression  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }
     | l=expression MINUS r=expression { $out = new TP2.ASD.operation.MinusExpression($l.out, $r.out); }
     | LP e=expression RP { $out=$e.out; }
     | f=primary { $out = $f.out; }
