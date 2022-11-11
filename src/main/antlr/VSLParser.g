@@ -47,12 +47,15 @@ affectation returns [TP2.ASD.Expression out]
     : i=IDENT COLON EQUAL is=expression {
         $out = new TP2.ASD.AffectExpression($i.text, $is.out);
     }
+    | i=IDENT LSB index=expression RSB COLON EQUAL e=expression {
+        $out = new TP2.ASD.AffectExpression($i.text, $e.out, true, $index.out);
+    }
     ;
 
 declaration returns [TP2.ASD.Expression out]
     : t=type { LinkedList<TP2.ASD.DeclareExpression> l = new LinkedList<>(); }
-    (((i=IDENT { l.add(new TP2.ASD.DeclareExpression($t.out, $i.text, l)); })
-        | (i=IDENT LSB INTEGER RSB { l.add(new TP2.ASD.DeclareExpression(new TP2.ASD.type.Tab($t.out), $i.text, l, new TP2.ASD.IntegerExpression($INTEGER.int))); })) COMMA? )*
+    (((i=IDENT LSB INTEGER RSB { l.add(new TP2.ASD.DeclareExpression(new TP2.ASD.type.Tab($t.out, $INTEGER.int), $i.text, l, new TP2.ASD.IntegerExpression($INTEGER.int))); })
+    | (i=IDENT { l.add(new TP2.ASD.DeclareExpression($t.out, $i.text, l)); })) COMMA? )*
      {
         $out = l.removeLast();
      }

@@ -8,7 +8,7 @@ options {
   package TP2;
 }
 
-WS : (' '|'\n'|'\t') -> skip
+WS : (' '|'\r'?'\n'|'\t') -> skip
    ;
 
 COMMENT : '//' (~'\n')* -> skip

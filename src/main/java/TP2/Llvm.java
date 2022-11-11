@@ -110,6 +110,10 @@ public class Llvm {
    */
   public abstract static class Type {
     public abstract String toString();
+
+    public int getSize() {
+      return 1; // default value
+    }
   }
 
   public static class Int extends Type {
@@ -121,9 +125,20 @@ public class Llvm {
   public static class Tab<E extends Type> extends Type {
 
     public final E type;
+    private final int size;
 
-    public Tab(E type) {
+    public Tab(E type, int size) {
       this.type = type;
+      this.size = size;
+    }
+
+    public E getInnerType() {
+      return type;
+    }
+
+    @Override
+    public int getSize() {
+      return size;
     }
 
     @Override
@@ -132,5 +147,4 @@ public class Llvm {
     }
   }
 
-  // TODO : other types
 }

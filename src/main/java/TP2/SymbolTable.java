@@ -27,7 +27,7 @@ public class SymbolTable {
   }
 
   public static class VariableSymbol extends Symbol {
-    Type type;
+    private Type type;
 
     /**
      * A variable symbol
@@ -37,6 +37,15 @@ public class SymbolTable {
     public VariableSymbol(Type type, String ident) {
       this.type = type;
       this.ident = ident;
+    }
+
+    public Type getType() {
+      return type;
+    }
+
+    @Override
+    public String toString() {
+      return "\tname: " + ident + "\n\ttype: " + type.toString();
     }
 
     @Override public boolean equals(Object obj) {

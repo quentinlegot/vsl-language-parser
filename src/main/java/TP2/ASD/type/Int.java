@@ -14,4 +14,5 @@ public class Int extends Type {
     public Llvm.Type toLlvmType() {
       return new Llvm.Int();
     }
+
   }
