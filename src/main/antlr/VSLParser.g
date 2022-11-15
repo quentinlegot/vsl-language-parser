@@ -18,7 +18,7 @@ program returns [TP2.ASD.Program out]
     ;
 
 block returns [ TP2.ASD.Expression out ]
-    :
+    : e=instructionList { $out = new TP2.ASD.BlockExpression($e.out); }
     ;
 
 instructionList returns [LinkedList<TP2.ASD.Expression> out]
