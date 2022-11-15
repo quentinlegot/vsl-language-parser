@@ -8,12 +8,6 @@ import TP2.TypeException;
  */
 public abstract class Expression {
 
-    protected SymbolTable table;
-
     public abstract String pp();
-    public abstract RetExpression toIR() throws TypeException;
-
-    public void setTable(SymbolTable table) {
-        this.table = table;
-    }
+    public abstract RetExpression toIR(SymbolTable table) throws TypeException;
 }

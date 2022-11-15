@@ -1,3 +1,0 @@
-INT var1, var2[10]
-var1 := 5
-var2[var1] := 4

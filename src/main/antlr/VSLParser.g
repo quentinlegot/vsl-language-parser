@@ -13,11 +13,12 @@ options {
   import java.util.LinkedList;
 }
 
-
-// TODO : other rules
-
 program returns [TP2.ASD.Program out]
     : e=instructionList EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+    ;
+
+block returns [ TP2.ASD.Expression out ]
+    :
     ;
 
 instructionList returns [LinkedList<TP2.ASD.Expression> out]
@@ -38,42 +39,43 @@ instruction returns [TP2.ASD.Expression out]
     | d=declaration {
         $out = $d.out;
     }
-    | e=expression {
-        $out = $e.out;
+    ;
+
+affectation returns [TP2.ASD.AbstractAffectExpression out]
+    : i=IDENT AFFECTSYMBOL is=expression {
+        $out = new TP2.ASD.SimpleAffectExpression($i.text, $is.out);
+    }
+    | i=IDENT LSB index=expression RSB AFFECTSYMBOL e=expression {
+        $out = new TP2.ASD.TabAffectExpression($i.text, $e.out, $index.out);
     }
     ;
 
-affectation returns [TP2.ASD.Expression out]
-    : i=IDENT COLON EQUAL is=expression {
-        $out = new TP2.ASD.AffectExpression($i.text, $is.out);
-    }
-    | i=IDENT LSB index=expression RSB COLON EQUAL e=expression {
-        $out = new TP2.ASD.AffectExpression($i.text, $e.out, true, $index.out);
-    }
-    ;
-
-declaration returns [TP2.ASD.Expression out]
-    : t=type { LinkedList<TP2.ASD.DeclareExpression> l = new LinkedList<>(); }
-    (((i=IDENT LSB INTEGER RSB { l.add(new TP2.ASD.DeclareExpression(new TP2.ASD.type.Tab($t.out, $INTEGER.int), $i.text, l, new TP2.ASD.IntegerExpression($INTEGER.int))); })
-    | (i=IDENT { l.add(new TP2.ASD.DeclareExpression($t.out, $i.text, l)); })) COMMA? )*
+declaration returns [TP2.ASD.AbstractDeclareExpression out]
+    : t=type { LinkedList<TP2.ASD.AbstractDeclareExpression> l = new LinkedList<>(); }
+    (((i=IDENT { l.add(new TP2.ASD.SimpleDeclareExpression($t.out, $i.text, l)); })
+        | (i=IDENT LSB INTEGER RSB { l.add(new TP2.ASD.TabDeclareExpression(new TP2.ASD.type.Tab($t.out, $INTEGER.int), $i.text, l, new TP2.ASD.IntegerExpression($INTEGER.int))); })) COMMA? )*
      {
         $out = l.removeLast();
      }
     ;
 
 expression returns [TP2.ASD.Expression out]
-    : MINUS e=expression { $out= new TP2.ASD.operation.MulExpression(new TP2.ASD.IntegerExpression(-1), $e.out); }
-    | l=expression MUL  r=expression  { $out = new TP2.ASD.operation.MulExpression($l.out, $r.out); }
-    | l=expression DIV r=expression   { $out = new TP2.ASD.operation.DivExpression($l.out, $r.out); }
-    | l=expression PLUS r=expression  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }
-    | l=expression MINUS r=expression { $out = new TP2.ASD.operation.MinusExpression($l.out, $r.out); }
-    | LP e=expression RP { $out=$e.out; }
-    | f=primary { $out = $f.out; }
+    : l=expression PLUS r=factor  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }
+    | l=expression MINUS r=factor { $out = new TP2.ASD.operation.MinusExpression($l.out, $r.out); }
+    | f=factor { $out = $f.out; }
+    ;
+
+factor returns [ TP2.ASD.Expression out ]
+    : l=factor MUL r=factor { $out = new TP2.ASD.operation.MulExpression($l.out, $r.out); }
+    | l=factor DIV r=factor { $out = new TP2.ASD.operation.DivExpression($l.out, $r.out); }
+    | primary { $out = $primary.out; }
     ;
 
 primary returns [TP2.ASD.Expression out]
-    : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
+    : MINUS p=primary { $out = new TP2.ASD.operation.MulExpression(new TP2.ASD.IntegerExpression(-1), $p.out); }
+    | INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
     | IDENT { $out = new TP2.ASD.operation.VariableExpression($IDENT.text); }
+    | LP e=expression RP { $out = $e.out; }
     ;
 
 type returns [ TP2.ASD.type.Type out ]

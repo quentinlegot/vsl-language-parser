@@ -3,6 +3,7 @@ package TP2.ASD.operation;
 import TP2.ASD.Expression;
 import TP2.ASD.RetExpression;
 import TP2.Instruction;
+import TP2.SymbolTable;
 import TP2.TypeException;
 import TP2.Utils;
 import TP2.operation.Minus;
@@ -23,11 +24,9 @@ public class MinusExpression extends Expression {
     public String pp() {
         return "(" + left.pp() + " - " + right.pp() + ")";
     }
-    public RetExpression toIR() throws TypeException {
-        left.setTable(table);
-        right.setTable(table);
-        RetExpression leftRet = left.toIR();
-        RetExpression rightRet = right.toIR();
+    public RetExpression toIR(SymbolTable table) throws TypeException {
+        RetExpression leftRet = left.toIR(table);
+        RetExpression rightRet = right.toIR(table);
 
         // We check if the types mismatches
         if(!leftRet.type.equals(rightRet.type)) {

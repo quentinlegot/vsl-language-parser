@@ -29,15 +29,13 @@ public class Program {
         // computes the IR of the expression
         SymbolTable rootTable = new SymbolTable();
         Expression start = e.get(0);
-        start.setTable(rootTable);
-        RetExpression startRet = start.toIR();
+        RetExpression startRet = start.toIR(rootTable);
         RetExpression last = startRet;
 
         if(e.size() > 1) {
            for(int i = 1; i < e.size(); i++) {
                Expression ex = e.get(i);
-               ex.setTable(rootTable);
-               last = ex.toIR();
+               last = ex.toIR(rootTable);
                startRet.ir.append(last.ir);
            }
         }

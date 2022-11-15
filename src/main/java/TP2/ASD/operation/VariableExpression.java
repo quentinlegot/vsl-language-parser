@@ -22,7 +22,7 @@ public class VariableExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR() throws TypeException {
+    public RetExpression toIR(SymbolTable table) throws TypeException {
         SymbolTable.Symbol symbol = table.lookup(name);
         if(symbol instanceof SymbolTable.VariableSymbol) {
             SymbolTable.VariableSymbol variableSymbol = (SymbolTable.VariableSymbol) symbol;

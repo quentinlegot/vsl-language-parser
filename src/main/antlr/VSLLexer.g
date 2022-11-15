@@ -32,6 +32,7 @@ LB : '{' ;
 RB : '}' ;
 LSB : '[' ;
 RSB : ']' ;
+AFFECTSYMBOL : ':=';
 
 // TODO : other keywords
 // var types
