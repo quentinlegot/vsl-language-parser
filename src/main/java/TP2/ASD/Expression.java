@@ -9,5 +9,6 @@ import TP2.TypeException;
 public abstract class Expression {
 
     public abstract String pp();
+    // TODO add an indent counter in toIR
     public abstract RetExpression toIR(SymbolTable table) throws TypeException;
 }

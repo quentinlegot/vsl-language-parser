@@ -14,7 +14,7 @@ options {
 }
 
 program returns [TP2.ASD.Program out]
-    : e=instructionList EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+    : e=block EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
     ;
 
 block returns [ TP2.ASD.Expression out ]

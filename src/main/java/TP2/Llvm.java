@@ -82,14 +82,14 @@ public class Llvm {
 
       // We create the function main
       // TODO : remove this when you extend the language
-      r.append("define i32 @main() {\n");
+      r.append("define i32 @main() \n");
 
 
       for(Instruction inst: code)
         r.append(inst);
 
       // TODO : remove this when you extend the language
-      r.append("}\n");
+      r.append("\n");
 
       return r.toString();
     }
@@ -113,6 +113,14 @@ public class Llvm {
 
     public int getSize() {
       return 1; // default value
+    }
+  }
+
+  public static class Void extends Type {
+
+    @Override
+    public String toString() {
+      return "void";
     }
   }
 

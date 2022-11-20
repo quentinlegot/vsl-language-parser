@@ -17,7 +17,7 @@ public class SimpleAffectExpression extends AbstractAffectExpression {
     }
     @Override
     public String pp() {
-        return name + " = " + expression.pp() + "\n";
+        return name + " := " + expression.pp() + "\n";
     }
 
     @Override

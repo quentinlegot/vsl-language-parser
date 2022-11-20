@@ -18,7 +18,7 @@ public class TabAffectExpression extends AbstractAffectExpression {
 
     @Override
     public String pp() {
-        return name + "[" + index.pp() + "] = " + expression.pp() + "\n";
+        return name + "[" + index.pp() + "] := " + expression.pp() + "\n";
     }
 
     @Override
