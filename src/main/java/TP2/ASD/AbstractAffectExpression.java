@@ -6,7 +6,7 @@ public abstract class AbstractAffectExpression extends Expression  {
     protected final Expression expression;
 
     protected AbstractAffectExpression(String name, Expression expression) {
-        this.name = name;
+        this.name = "%" + name;
         this.expression = expression;
     }
 

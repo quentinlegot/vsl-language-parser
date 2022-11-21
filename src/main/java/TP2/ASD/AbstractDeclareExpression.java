@@ -14,7 +14,7 @@ public abstract class AbstractDeclareExpression extends Expression {
 
     protected AbstractDeclareExpression(Type type, String name, LinkedList<AbstractDeclareExpression> othersDeclare) {
         this.type = type;
-        this.name = name;
+        this.name = "%" + name;
         this.othersDeclare = othersDeclare;
     }
 

@@ -3,7 +3,7 @@ package TP2.operation;
 import TP2.Instruction;
 import TP2.Llvm;
 
-public class Minus extends Instruction {
+public class Sub extends Instruction {
     Llvm.Type type;
     String left;
     String right;
@@ -17,7 +17,7 @@ public class Minus extends Instruction {
      * @param right the right side of the addition
      * @param lvalue the variable containing the result of the addition
      */
-    public Minus(Llvm.Type type, String left, String right, String lvalue) {
+    public Sub(Llvm.Type type, String left, String right, String lvalue) {
         this.type = type;
         this.left = left;
         this.right = right;
@@ -25,7 +25,7 @@ public class Minus extends Instruction {
     }
 
     public String toString() {
-        return lvalue + " = minus " + type + " " + left + ", " + right +  "\n";
+        return lvalue + " = sub " + type + " " + left + ", " + right +  "\n";
     }
 
 }

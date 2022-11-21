@@ -6,7 +6,7 @@ import TP2.Instruction;
 import TP2.SymbolTable;
 import TP2.TypeException;
 import TP2.Utils;
-import TP2.operation.Minus;
+import TP2.operation.Sub;
 
 public class MinusExpression extends Expression {
 
@@ -41,7 +41,7 @@ public class MinusExpression extends Expression {
         String result = Utils.newtmp();
 
         // new add instruction result = left + right
-        Instruction minus = new Minus(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
+        Instruction minus = new Sub(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
 
         // append this instruction
         leftRet.ir.appendCode(minus);

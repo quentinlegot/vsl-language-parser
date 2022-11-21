@@ -28,7 +28,7 @@ public class RetExpression {
      * Construct the object returned by toIR() on expressions.
      * @param ir the IR corresponding to the expression
      * @param type the type of the expression
-     * @param result the name containing the expressions's result (either an identifier, or an immediate value)
+     * @param result the name containing the expressions' result (either an identifier, or an immediate value)
      */
     public RetExpression(Llvm.IR ir, Type type, String result) {
         this.ir = ir;

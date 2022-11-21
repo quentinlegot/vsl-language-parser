@@ -35,11 +35,11 @@ public class Affect extends Instruction {
                 indexVar = index;
                 str = "";
             }
-            str += tmpVar + " = getelementptr " + tabType + ", " + tabType + "* %" + ident + ", i64 0, i32 " + indexVar + "\n";
-            str += "store " + innerType.toString() + " " + value + ", " + type.toString() + " " + indexVar + "\n";
+            str += tmpVar + " = getelementptr " + tabType + ", " + tabType + "* " + ident + ", i64 0, i32 " + indexVar + "\n";
+            str += "store " + innerType.toString() + " " + value + ", " + type.toString() + " " + tmpVar + "\n";
             return str;
         } else {
-            return "store " + type.toString() + " " +  value + ", " + type.toString() + "* %" + ident + "\n";
+            return "store " + type.toString() + " " +  value + ", " + type.toString() + "* " + ident + "\n";
         }
 
     }

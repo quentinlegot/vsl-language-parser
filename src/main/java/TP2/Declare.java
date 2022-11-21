@@ -22,7 +22,7 @@ public class Declare extends Instruction {
 
     @Override
     public String toString() {
-        String str = value + "%" + ident + " = alloca ";
+        String str = value + ident + " = alloca ";
         if(type instanceof Llvm.Tab) {
             Llvm.Tab<?> tab = (Llvm.Tab<?>) type;
             str += "[" + number + " x " + tab.type + "]\n";
