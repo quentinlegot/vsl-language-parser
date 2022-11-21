@@ -25,14 +25,15 @@ PLUS  : '+' ;
 MUL   : '*' ;
 DIV   : '/' ;
 MINUS : '-' ;
-EQUAL : '=';
-COLON : ':';
+EQUAL : '=' ;
+COLON : ':' ;
 COMMA : ',' ;
-LB : '{' ;
-RB : '}' ;
-LSB : '[' ;
-RSB : ']' ;
+LB    : '{' ;
+RB    : '}' ;
+LSB   : '[' ;
+RSB   : ']' ;
 AFFECTSYMBOL : ':=';
+
 
 // TODO : other keywords
 // var types
@@ -41,6 +42,10 @@ INT : 'INT' ;
 // instructions
 FUNC: 'FUNC' ;
 VOID: 'VOID' ;
+IF  : 'IF' ;
+FI  : 'FI';
+THEN: 'THEN' ;
+ELSE: 'ELSE' ;
 
 // other tokens (no conflict with keywords in VSL)
 IDENT   : LETTER (LETTER|DIGIT)*;

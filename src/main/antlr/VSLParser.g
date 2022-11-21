@@ -17,7 +17,7 @@ program returns [TP2.ASD.Program out]
     : e=block EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
     ;
 
-block returns [ TP2.ASD.Expression out ]
+block returns [TP2.ASD.Expression out]
     : e=instructionList { $out = new TP2.ASD.BlockExpression($e.out); }
     ;
 
@@ -39,6 +39,9 @@ instruction returns [TP2.ASD.Expression out]
     | d=declaration {
         $out = $d.out;
     }
+    | ifi=if_then_else {
+        $out = $ifi.out;
+    }
     ;
 
 affectation returns [TP2.ASD.AbstractAffectExpression out]
@@ -57,6 +60,38 @@ declaration returns [TP2.ASD.AbstractDeclareExpression out]
      {
         $out = l.removeLast();
      }
+    ;
+
+if_then_else returns [TP2.ASD.Expression out]
+    @init { TP2.ASD.Expression elsePart = null; }
+    : i=if_condition (e=else_condition { elsePart = $e.out; })?  FI
+    {
+        $out = new TP2.ASD.condition.IfThenElseExpression($i.out, elsePart);
+    }
+    ;
+
+if_condition returns [TP2.ASD.Expression out]
+    : IF bo=boolean_condition THEN b=block {
+        $out = new TP2.ASD.condition.IfConditionExpression($bo.out, $b.out);
+    }
+    | IF bo=boolean_condition THEN i=instruction {
+        $out = new TP2.ASD.condition.IfConditionExpression($bo.out, $i.out);
+    }
+    ;
+
+else_condition returns [TP2.ASD.Expression out]
+    : ELSE b=block {
+        $out = new TP2.ASD.condition.ElseConditionExpression($b.out);
+    }
+    | ELSE i=instruction {
+        $out = new TP2.ASD.condition.ElseConditionExpression($i.out);
+    }
+    ;
+
+boolean_condition returns [TP2.ASD.Expression out]
+    : e=expression {
+        $out = new TP2.ASD.condition.BooleanConditionExpression($e.out);
+    }
     ;
 
 expression returns [TP2.ASD.Expression out]
