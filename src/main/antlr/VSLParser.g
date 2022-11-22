@@ -48,6 +48,9 @@ instruction returns [TP2.ASD.Expression out]
     | wh=while {
         $out = $wh.out;
     }
+    | print {
+        $out = $print.out;
+    }
     ;
 
 affectation returns [TP2.ASD.AbstractAffectExpression out]
@@ -92,6 +95,28 @@ else_condition returns [TP2.ASD.condition.ElseConditionExpression out]
     : ELSE b=block {
         $out = new TP2.ASD.condition.ElseConditionExpression($b.out);
     }
+    ;
+
+print returns [TP2.ASD.PrintExpression out]
+    : PRINT p=print_content_list {
+        $out = new TP2.ASD.PrintExpression($p.out);
+    }
+    ;
+
+print_content_list returns [LinkedList<TP2.ASD.Expression> out]
+    : p=print_content COMMA pl=print_content_list {
+        $out = $pl.out;
+        $out.addFirst($p.out);
+    }
+    | p=print_content {
+        $out = new LinkedList<>();
+        $out.add($p.out);
+    }
+    ;
+
+print_content returns [TP2.ASD.Expression out]
+    : TEXT { $out = new TP2.ASD.StringExpression($TEXT.text); }
+    | e=expression { $out = $e.out; }
     ;
 
 expression returns [TP2.ASD.Expression out]

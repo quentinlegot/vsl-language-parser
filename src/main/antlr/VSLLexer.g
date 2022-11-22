@@ -49,6 +49,7 @@ ELSE: 'ELSE' ;
 WHILE : 'WHILE';
 DO  : 'DO';
 DONE : 'DONE' ;
+PRINT : 'PRINT';
 
 // other tokens (no conflict with keywords in VSL)
 IDENT   : LETTER (LETTER|DIGIT)*;

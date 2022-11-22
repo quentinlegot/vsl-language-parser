@@ -155,4 +155,13 @@ public class Llvm {
     }
   }
 
+  public static class Char extends Type {
+
+    @Override
+    public String toString() {
+      return "i8";
+    }
+
+  }
+
 }

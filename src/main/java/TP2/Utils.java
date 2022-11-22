@@ -87,5 +87,13 @@ public class Utils {
       this.str = str;
       this.length = length;
     }
+
+    public String getStr() {
+      return str;
+    }
+
+    public int getLength() {
+      return length;
+    }
   }
 }
