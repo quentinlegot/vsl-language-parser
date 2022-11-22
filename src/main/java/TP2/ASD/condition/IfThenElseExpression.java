@@ -20,7 +20,7 @@ public class IfThenElseExpression extends Expression {
     }
     @Override
     public String pp() {
-        return ifPart.pp() + (elsePart != null ? elsePart.pp() : "") + "FI";
+        return ifPart.pp() + (elsePart != null ? elsePart.pp() : "") + "FI\n";
     }
 
     @Override

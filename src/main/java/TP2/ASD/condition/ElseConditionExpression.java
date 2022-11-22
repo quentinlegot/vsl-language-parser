@@ -20,7 +20,7 @@ public class ElseConditionExpression extends AbstractCondition {
     }
     @Override
     public String pp() {
-        return "ELSE" + instruction.pp();
+        return "ELSE\n" + instruction.pp();
     }
 
     @Override

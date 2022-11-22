@@ -45,6 +45,9 @@ instruction returns [TP2.ASD.Expression out]
     | ifi=if_then_else {
         $out = $ifi.out;
     }
+    | wh=while {
+        $out = $wh.out;
+    }
     ;
 
 affectation returns [TP2.ASD.AbstractAffectExpression out]
@@ -63,6 +66,12 @@ declaration returns [TP2.ASD.AbstractDeclareExpression out]
      {
         $out = l.removeLast();
      }
+    ;
+
+while returns [TP2.ASD.Expression out]
+    : WHILE e=expression DO b=block DONE {
+        $out = new TP2.ASD.condition.WhileExpression($e.out, $b.out);
+    }
     ;
 
 if_then_else returns [TP2.ASD.Expression out]

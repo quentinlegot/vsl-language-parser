@@ -26,14 +26,12 @@ public class Affect extends Instruction {
             String tmpVar = Utils.newtmp();
             String indexVar;
             Object tabType =  "[" + type.getSize() + " x " + innerType + "]";
-            String str;
+            String str = "";
             if(index.startsWith("%")) { // not a IntegerExpression
-                str = index;
                 String[] lines = index.split("\n");
                 indexVar = lines[lines.length - 1].split(" ")[0];
             } else {
                 indexVar = index;
-                str = "";
             }
             str += tmpVar + " = getelementptr " + tabType + ", " + tabType + "* " + ident + ", i64 0, i32 " + indexVar + "\n";
             str += "store " + innerType.toString() + " " + value + ", " + type.toString() + " " + tmpVar + "\n";

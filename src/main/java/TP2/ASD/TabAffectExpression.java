@@ -26,6 +26,7 @@ public class TabAffectExpression extends AbstractAffectExpression {
 
         RetExpression indexRet = index.toIR(table);
         RetExpression ret = expression.toIR(table);
+        indexRet.ir.append(ret.ir);
         SymbolTable.Symbol symbol = table.lookup(name);
         if(symbol instanceof SymbolTable.VariableSymbol) {
             SymbolTable.VariableSymbol variableSymbol = (SymbolTable.VariableSymbol) symbol;
@@ -34,8 +35,8 @@ public class TabAffectExpression extends AbstractAffectExpression {
                 throw new IllegalArgumentException("left side of assignment is incompatible with right side\nLeft: " + variableSymbol + "\nRight: \t" + nSymbol);
             }
             Instruction affect = new Affect(new Tab<>(ret.type, variableSymbol.getType().getSize()).toLlvmType(), name, ret.result, indexRet.result);
-            ret.ir.appendCode(affect);
-            return new RetExpression(ret.ir, new Int(), name);
+            indexRet.ir.appendCode(affect);
+            return new RetExpression(indexRet.ir, new Int(), name);
         } else {
             throw new NullPointerException(name + " is undeclared or isn't a variable");
         }

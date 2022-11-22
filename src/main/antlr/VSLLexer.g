@@ -46,6 +46,9 @@ IF  : 'IF' ;
 FI  : 'FI';
 THEN: 'THEN' ;
 ELSE: 'ELSE' ;
+WHILE : 'WHILE';
+DO  : 'DO';
+DONE : 'DONE' ;
 
 // other tokens (no conflict with keywords in VSL)
 IDENT   : LETTER (LETTER|DIGIT)*;
