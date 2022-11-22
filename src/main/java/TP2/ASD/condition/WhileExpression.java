@@ -24,24 +24,26 @@ public class WhileExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         Llvm.IR IR = new Llvm.IR();
-        RetExpression ret = expression.toIR(table);
+        RetExpression ret = expression.toIR(table, indent);
         String condResult = Utils.newtmp();
         String startLab = Utils.newlab("while");
         String contentWhileLab = Utils.newlab("do");
         String endLab = Utils.newlab("done");
+        Instruction jumpToStartIns = new UnconditionalJump(indent, startLab);
+        IR.appendCode(jumpToStartIns);
         Instruction startLabIns = new LabelInstruction(startLab);
         IR.appendCode(startLabIns);
         IR.append(ret.ir);
-        Instruction icmp = new IcmpInstruction(ret.type.toLlvmType(), ret.result, condResult);
+        Instruction icmp = new IcmpInstruction(indent, ret.type.toLlvmType(), ret.result, condResult);
         IR.appendCode(icmp);
-        Instruction br = new ConditionalJumpInstruction(condResult, contentWhileLab, endLab);
+        Instruction br = new ConditionalJumpInstruction(indent, condResult, contentWhileLab, endLab);
         IR.appendCode(br);
         Instruction contentLabIns = new LabelInstruction(contentWhileLab);
         IR.appendCode(contentLabIns);
-        IR.append(block.toIR(table).ir);
-        Instruction jump = new UnconditionalJump(startLab);
+        IR.append(block.toIR(table, indent).ir);
+        Instruction jump = new UnconditionalJump(indent, startLab);
         IR.appendCode(jump);
         Instruction endLabIns = new LabelInstruction(endLab);
         IR.appendCode(endLabIns);

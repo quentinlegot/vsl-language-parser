@@ -1,9 +1,11 @@
 package TP2.ASD;
 
-import TP2.ASD.type.Int;
-import TP2.*;
 import TP2.ASD.type.Type;
 import TP2.ASD.type.Void;
+import TP2.Instruction;
+import TP2.Return;
+import TP2.SymbolTable;
+import TP2.TypeException;
 
 import java.util.List;
 
@@ -29,18 +31,18 @@ public class BlockExpression extends Expression {
         return str.toString();
     }
 
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         boolean alreadyHasReturn = false;
         SymbolTable blockTable = new SymbolTable(table);
-        RetExpression startRet = instructions.get(0).toIR(blockTable);
+        RetExpression startRet = instructions.get(0).toIR(blockTable, indent);
         for (int i = 1; i < instructions.size(); i++) {
             // TODO check if return expression exist
-            RetExpression ret = instructions.get(i).toIR(blockTable);
+            RetExpression ret = instructions.get(i).toIR(blockTable, indent);
             startRet.ir.append(ret.ir);
         }
         // TODO only add a return instruction when type isn't void
         if(!alreadyHasReturn && isFunctionBlock) {
-            Instruction retExpr = new Return(type.toLlvmType(), type instanceof Void ? "" : startRet.result);
+            Instruction retExpr = new Return(indent, type.toLlvmType(), (type instanceof Void) ? "" : "0"); // default value is 0 if no return has been added in vsl code
             startRet.ir.appendCode(retExpr);
         }
 
@@ -49,5 +51,9 @@ public class BlockExpression extends Expression {
 
     public void setFunctionBlock(boolean functionBlock) {
         isFunctionBlock = functionBlock;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

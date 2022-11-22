@@ -2,6 +2,7 @@ package TP2.operation;
 
 import TP2.Instruction;
 import TP2.Llvm;
+import TP2.Utils;
 
 public class Div extends Instruction {
 
@@ -18,7 +19,8 @@ public class Div extends Instruction {
      * @param right the right side of the addition
      * @param lvalue the variable containing the result of the addition
      */
-    public Div(Llvm.Type type, String left, String right, String lvalue) {
+    public Div(int indent, Llvm.Type type, String left, String right, String lvalue) {
+        super(indent);
         this.type = type;
         this.left = left;
         this.right = right;
@@ -27,6 +29,6 @@ public class Div extends Instruction {
 
     @Override
     public String toString() {
-        return lvalue + " = div " + type + " " + left + ", " + right +  "\n";
+        return Utils.indent(indent) + lvalue + " = div " + type + " " + left + ", " + right +  "\n";
     }
 }

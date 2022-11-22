@@ -29,18 +29,18 @@ public class IfConditionExpression extends AbstractCondition {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
-        RetExpression bool = booleanExpression.toIR(table);
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
+        RetExpression bool = booleanExpression.toIR(table, indent);
         String condTmp = Utils.newtmp();
-        Instruction icmp = new IcmpInstruction(bool.type.toLlvmType(), bool.result, condTmp);
+        Instruction icmp = new IcmpInstruction(indent, bool.type.toLlvmType(), bool.result, condTmp);
         bool.ir.appendCode(icmp);
-        Instruction br = new ConditionalJumpInstruction(condTmp, thenLab, elseLab != null ? elseLab : endLab);
+        Instruction br = new ConditionalJumpInstruction(indent, condTmp, thenLab, elseLab != null ? elseLab : endLab);
         bool.ir.appendCode(br);
         Instruction ThenLabel = new LabelInstruction(thenLab);
         bool.ir.appendCode(ThenLabel);
-        RetExpression retExpressions = instruction.toIR(table);
+        RetExpression retExpressions = instruction.toIR(table, indent);
         bool.ir.append(retExpressions.ir);
-        Instruction jump = new UnconditionalJump(endLab);
+        Instruction jump = new UnconditionalJump(indent, endLab);
         bool.ir.appendCode(jump);
         return new RetExpression(bool.ir, bool.type, bool.result);
     }

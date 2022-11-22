@@ -8,6 +8,7 @@ public class DeclareGlobalVarInstruction extends Instruction {
     private final Llvm.Type type;
 
     public DeclareGlobalVarInstruction(String name, String content, int length, Llvm.Type type) {
+        super(0);
         this.name = name;
         this.content = content;
         this.length = length;
@@ -16,6 +17,6 @@ public class DeclareGlobalVarInstruction extends Instruction {
 
     @Override
     public String toString() {
-        return "@" + name + " = global " + "[" + length + " x " + type + "] " + content;
+        return "@" + name + " = global " + "[" + length + " x " + type + "] c\"" + content + "\"";
     }
 }

@@ -20,13 +20,13 @@ public class VariableExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         SymbolTable.Symbol symbol = table.lookup(name);
         if(symbol instanceof SymbolTable.VariableSymbol) {
             String tmpVar = Utils.newtmp();
             RetExpression ret = new RetExpression(new Llvm.IR(Llvm.empty(), Llvm.empty()), new Int(), tmpVar);
             SymbolTable.VariableSymbol variableSymbol = (SymbolTable.VariableSymbol) symbol;
-            Instruction variableLoad = new LoadVariable(tmpVar, variableSymbol.getType().toLlvmType(), name);
+            Instruction variableLoad = new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), name);
             ret.ir.appendCode(variableLoad);
             return ret;
         } else {

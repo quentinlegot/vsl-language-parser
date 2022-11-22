@@ -2,6 +2,7 @@ package TP2.operation;
 
 import TP2.Instruction;
 import TP2.Llvm;
+import TP2.Utils;
 
 public class Sub extends Instruction {
     Llvm.Type type;
@@ -17,7 +18,8 @@ public class Sub extends Instruction {
      * @param right the right side of the addition
      * @param lvalue the variable containing the result of the addition
      */
-    public Sub(Llvm.Type type, String left, String right, String lvalue) {
+    public Sub(int indent, Llvm.Type type, String left, String right, String lvalue) {
+        super(indent);
         this.type = type;
         this.left = left;
         this.right = right;
@@ -25,7 +27,7 @@ public class Sub extends Instruction {
     }
 
     public String toString() {
-        return lvalue + " = sub " + type + " " + left + ", " + right +  "\n";
+        return Utils.indent(indent) + lvalue + " = sub " + type + " " + left + ", " + right +  "\n";
     }
 
 }

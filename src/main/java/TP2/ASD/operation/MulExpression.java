@@ -23,9 +23,9 @@ public class MulExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
-        RetExpression leftRet = left.toIR(table);
-        RetExpression rightRet = right.toIR(table);
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
+        RetExpression leftRet = left.toIR(table, indent);
+        RetExpression rightRet = right.toIR(table, indent);
 
         if(!leftRet.type.equals(rightRet.type)) {
             throw new TypeException("Type mismatch: have " + leftRet.type + " and " + rightRet.type);
@@ -33,7 +33,7 @@ public class MulExpression extends Expression {
 
         leftRet.ir.append(rightRet.ir);
         String result = Utils.newtmp();
-        Instruction mul = new Mul(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
+        Instruction mul = new Mul(indent, leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
         leftRet.ir.appendCode(mul);
         return new RetExpression(leftRet.ir, leftRet.type, result);
     }

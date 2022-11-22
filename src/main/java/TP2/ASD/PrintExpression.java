@@ -3,8 +3,11 @@ package TP2.ASD;
 import TP2.ASD.type.Char;
 import TP2.ASD.type.Tab;
 import TP2.*;
+import org.antlr.v4.runtime.misc.Pair;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class PrintExpression extends Expression {
 
@@ -32,21 +35,23 @@ public class PrintExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
-        StringBuilder str = new StringBuilder("c\"");
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
+        List<Pair<Llvm.Type, String>> parameters = new ArrayList<>();
+        StringBuilder str = new StringBuilder();
         for (Expression expression : content) {
             if (expression instanceof StringExpression) {
-                str.append(expression.toIR(table).result);
+                str.append(expression.toIR(table, indent).result);
             } else {
                 str.append("%d");
             }
         }
-        str.append("\"");
         Utils.LLVMStringConstant result = Utils.stringTransform(str.toString());
         RetExpression ret = new RetExpression(new Llvm.IR(), new Tab<>(new Char(), result.getLength()), result.getStr());
         String globalVar = Utils.newglob("fmt");
         Instruction globalIns = new DeclareGlobalVarInstruction(globalVar, result.getStr(), result.getLength(), new Llvm.Char());
         ret.ir.appendHeader(globalIns);
+        Instruction printIns = new PrintInstruction(indent, result, globalVar, parameters);
+        ret.ir.appendCode(printIns);
         return ret;
     }
 }

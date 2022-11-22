@@ -22,10 +22,10 @@ public class TabAffectExpression extends AbstractAffectExpression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
 
-        RetExpression indexRet = index.toIR(table);
-        RetExpression ret = expression.toIR(table);
+        RetExpression indexRet = index.toIR(table, indent);
+        RetExpression ret = expression.toIR(table, indent);
         indexRet.ir.append(ret.ir);
         SymbolTable.Symbol symbol = table.lookup(name);
         if(symbol instanceof SymbolTable.VariableSymbol) {
@@ -34,7 +34,7 @@ public class TabAffectExpression extends AbstractAffectExpression {
             if(!variableSymbol.equals(nSymbol)) {
                 throw new IllegalArgumentException("left side of assignment is incompatible with right side\nLeft: " + variableSymbol + "\nRight: \t" + nSymbol);
             }
-            Instruction affect = new Affect(new Tab<>(ret.type, variableSymbol.getType().getSize()).toLlvmType(), name, ret.result, indexRet.result);
+            Instruction affect = new Affect(indent, new Tab<>(ret.type, variableSymbol.getType().getSize()).toLlvmType(), name, ret.result, indexRet.result);
             indexRet.ir.appendCode(affect);
             return new RetExpression(indexRet.ir, new Int(), name);
         } else {

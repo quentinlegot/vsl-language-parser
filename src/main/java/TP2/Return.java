@@ -12,12 +12,13 @@ public class Return extends Instruction {
      * @param type type of the return value
      * @param value value to be returned
      */
-    public Return(Llvm.Type type, String value) {
+    public Return(int indent, Llvm.Type type, String value) {
+        super(indent);
         this.type = type;
         this.value = value;
     }
 
     public String toString() {
-        return "ret " + type + " " + value + "\n";
+        return Utils.indent(indent) + "ret " + type + " " + value + "\n";
     }
 }

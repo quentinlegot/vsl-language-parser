@@ -2,6 +2,7 @@ package TP2.operation;
 
 import TP2.Instruction;
 import TP2.Llvm;
+import TP2.Utils;
 
 /**
  * Class representing the add instruction
@@ -20,7 +21,8 @@ public class Mul extends Instruction {
      * @param right the right side of the addition
      * @param lvalue the variable containing the result of the addition
      */
-    public Mul(Llvm.Type type, String left, String right, String lvalue) {
+    public Mul(int indent, Llvm.Type type, String left, String right, String lvalue) {
+        super(indent);
         this.type = type;
         this.left = left;
         this.right = right;
@@ -29,6 +31,6 @@ public class Mul extends Instruction {
 
     @Override
     public String toString() {
-        return lvalue + " = mul " + type + " " + left + ", " + right +  "\n";
+        return Utils.indent(indent) + lvalue + " = mul " + type + " " + left + ", " + right +  "\n";
     }
 }

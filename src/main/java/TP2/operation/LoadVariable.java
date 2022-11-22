@@ -2,6 +2,7 @@ package TP2.operation;
 
 import TP2.Instruction;
 import TP2.Llvm;
+import TP2.Utils;
 
 public class LoadVariable extends Instruction {
 
@@ -9,7 +10,8 @@ public class LoadVariable extends Instruction {
     private final Llvm.Type type;
     private final String toTmp;
 
-    public LoadVariable(String toTmp, Llvm.Type type, String name) {
+    public LoadVariable(int indent, String toTmp, Llvm.Type type, String name) {
+        super(indent);
         this.toTmp = toTmp;
         this.type = type;
         this.name = name;
@@ -17,6 +19,6 @@ public class LoadVariable extends Instruction {
 
     @Override
     public String toString() {
-        return toTmp + " = load " + type.toString() + ", " + type.toString() + "* " + name + "\n";
+        return Utils.indent(indent) + toTmp + " = load " + type.toString() + ", " + type.toString() + "* " + name + "\n";
     }
 }

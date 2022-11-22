@@ -24,12 +24,12 @@ public class ElseConditionExpression extends AbstractCondition {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         RetExpression ret = new RetExpression(new Llvm.IR(), new Void(), "");
         Instruction elseLabel = new LabelInstruction(elseLab);
         ret.ir.appendCode(elseLabel);
-        ret.ir.append(instruction.toIR(table).ir);
-        Instruction jump = new UnconditionalJump(endLab);
+        ret.ir.append(instruction.toIR(table, indent).ir);
+        Instruction jump = new UnconditionalJump(indent, endLab);
         ret.ir.appendCode(jump);
         return ret;
     }

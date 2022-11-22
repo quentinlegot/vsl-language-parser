@@ -17,9 +17,9 @@ public class IntegerExpression extends Expression {
     return "" + value;
   }
 
-  public RetExpression toIR(SymbolTable table) {
+  public RetExpression toIR(SymbolTable table, int indent) {
     // Here we simply return an empty IR
-    // the `result' of this expression is the integer itself (as string)
+    // the `result's of this expression is the integer itself (as string)
     return new RetExpression(new Llvm.IR(Llvm.empty(), Llvm.empty()), new Int(), "" + value);
   }
 }

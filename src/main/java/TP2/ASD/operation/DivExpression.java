@@ -24,9 +24,9 @@ public class DivExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
-        RetExpression leftRet = left.toIR(table);
-        RetExpression rightRet = right.toIR(table);
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
+        RetExpression leftRet = left.toIR(table, indent);
+        RetExpression rightRet = right.toIR(table, indent);
 
         // We check if the types mismatches
         if(!leftRet.type.equals(rightRet.type)) {
@@ -41,7 +41,7 @@ public class DivExpression extends Expression {
         String result = Utils.newtmp();
 
         // new add instruction result = left + right
-        Instruction div = new Div(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
+        Instruction div = new Div(indent, leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
 
         // append this instruction
         leftRet.ir.appendCode(div);

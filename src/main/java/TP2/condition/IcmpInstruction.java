@@ -2,6 +2,7 @@ package TP2.condition;
 
 import TP2.Instruction;
 import TP2.Llvm;
+import TP2.Utils;
 
 public class IcmpInstruction extends Instruction {
 
@@ -9,7 +10,8 @@ public class IcmpInstruction extends Instruction {
     private final String op1;
     private final String condTmp;
 
-    public IcmpInstruction(Llvm.Type type, String op1, String condTmp) {
+    public IcmpInstruction(int indent, Llvm.Type type, String op1, String condTmp) {
+        super(indent);
         this.type = type;
         this.op1 = op1;
         this.condTmp = condTmp;
@@ -17,6 +19,6 @@ public class IcmpInstruction extends Instruction {
 
     @Override
     public String toString() {
-        return condTmp + " = icmp ne " + type + ", " + op1 + ", 0\n";
+        return Utils.indent(indent) + condTmp + " = icmp ne " + type + " " + op1 + ", 0\n";
     }
 }

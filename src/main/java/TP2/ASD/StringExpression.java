@@ -20,7 +20,7 @@ public class StringExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         return new RetExpression(new Llvm.IR(), new Tab<>(new Char(), content.length()), content);
     }
 }

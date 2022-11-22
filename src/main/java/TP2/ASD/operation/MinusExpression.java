@@ -24,9 +24,9 @@ public class MinusExpression extends Expression {
     public String pp() {
         return "(" + left.pp() + " - " + right.pp() + ")";
     }
-    public RetExpression toIR(SymbolTable table) throws TypeException {
-        RetExpression leftRet = left.toIR(table);
-        RetExpression rightRet = right.toIR(table);
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
+        RetExpression leftRet = left.toIR(table, indent);
+        RetExpression rightRet = right.toIR(table, indent);
 
         // We check if the types mismatches
         if(!leftRet.type.equals(rightRet.type)) {
@@ -41,7 +41,7 @@ public class MinusExpression extends Expression {
         String result = Utils.newtmp();
 
         // new add instruction result = left + right
-        Instruction minus = new Sub(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
+        Instruction minus = new Sub(indent, leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
 
         // append this instruction
         leftRet.ir.appendCode(minus);

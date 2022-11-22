@@ -7,6 +7,7 @@ public class LabelInstruction extends Instruction {
     private final String label;
 
     public LabelInstruction(String label) {
+        super(0);
         this.label = label;
     }
 

@@ -24,7 +24,7 @@ public class IfThenElseExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         String thenLab = Utils.newlab("then");
         String elseLab = Utils.newlab("else");
         String endLab = Utils.newlab("fi");
@@ -32,11 +32,11 @@ public class IfThenElseExpression extends Expression {
         if(elsePart != null)
             ifPart.setElseLab(elseLab);
         ifPart.setEndLab(endLab);
-        RetExpression retIf = ifPart.toIR(table);
+        RetExpression retIf = ifPart.toIR(table, indent);
         if(elsePart != null) {
             elsePart.setElseLab(elseLab);
             elsePart.setEndLab(endLab);
-            RetExpression retElse = elsePart.toIR(table);
+            RetExpression retElse = elsePart.toIR(table, indent);
             retIf.ir.append(retElse.ir);
         }
         Instruction endIns = new LabelInstruction(endLab);

@@ -13,7 +13,8 @@ public class Declare extends Instruction {
      * @param type  type of the return value
      * @param value value to be returned
      */
-    public Declare(Llvm.Type type, String ident, String value, int number) {
+    public Declare(int indent, Llvm.Type type, String ident, String value, int number) {
+        super(indent);
         this.type = type;
         this.ident = ident;
         this.value = value;
@@ -22,7 +23,7 @@ public class Declare extends Instruction {
 
     @Override
     public String toString() {
-        String str = value + ident + " = alloca ";
+        String str = Utils.indent(indent) + value + ident + " = alloca ";
         if(type instanceof Llvm.Tab) {
             Llvm.Tab<?> tab = (Llvm.Tab<?>) type;
             str += "[" + number + " x " + tab.type + "]\n";

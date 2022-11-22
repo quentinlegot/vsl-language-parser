@@ -30,9 +30,9 @@ import TP2.operation.Add;
     /**
      * IR generation
      */
-    public RetExpression toIR(SymbolTable table) throws TypeException {
-      RetExpression leftRet = left.toIR(table);
-      RetExpression rightRet = right.toIR(table);
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
+      RetExpression leftRet = left.toIR(table, indent);
+      RetExpression rightRet = right.toIR(table, indent);
 
       // We check if the types mismatches
       if(!leftRet.type.equals(rightRet.type)) {
@@ -47,7 +47,7 @@ import TP2.operation.Add;
       String result = Utils.newtmp();
 
       // new add instruction result = left + right
-      Instruction add = new Add(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
+      Instruction add = new Add(indent, leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
 
       // append this instruction
       leftRet.ir.appendCode(add);

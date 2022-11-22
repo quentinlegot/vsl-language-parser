@@ -24,7 +24,7 @@ public class Program {
     public Llvm.IR toIR() throws TypeException {
         // computes the IR of the expression
         SymbolTable rootTable = new SymbolTable();
-        RetExpression ret = block.toIR(rootTable);
+        RetExpression ret = block.toIR(rootTable, 1); // TODO update indent to zero when functions will be implements
 
         return ret.ir;
     }

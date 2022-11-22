@@ -16,6 +16,7 @@ options {
 program returns [TP2.ASD.Program out]
     : e=block EOF {
     $e.out.setFunctionBlock(true);
+    $e.out.setType(new TP2.ASD.type.Int());
     $out = new TP2.ASD.Program($e.out);
     } // TODO : change when you extend the language
     ;

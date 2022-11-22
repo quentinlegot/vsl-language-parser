@@ -37,7 +37,7 @@ public abstract class AbstractDeclareExpression extends Expression {
     }
 
     @Override
-    public RetExpression toIR(SymbolTable table) throws TypeException {
+    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         if(table.lookup(name) != null)
             throw new IllegalStateException(name + " has already been declared");
         table.add(new SymbolTable.VariableSymbol(type, name));
@@ -45,7 +45,7 @@ public abstract class AbstractDeclareExpression extends Expression {
         Llvm.IR ir;
         if(!othersDeclare.isEmpty()) {
             AbstractDeclareExpression other = othersDeclare.pop();
-            RetExpression ret = other.toIR(table);
+            RetExpression ret = other.toIR(table, indent);
             result = ret.result;
             ir = ret.ir;
         } else {
@@ -55,7 +55,7 @@ public abstract class AbstractDeclareExpression extends Expression {
         int numberTab = 1;
         if(this instanceof TabDeclareExpression)
             numberTab = ((TabDeclareExpression) this).numberTab.value;
-        Instruction declare = new Declare(type.toLlvmType(), name, result, numberTab);
+        Instruction declare = new Declare(indent, type.toLlvmType(), name, result, numberTab);
         ir.appendCode(declare);
         return new RetExpression(ir, new Int(), "");
     }
