@@ -52,6 +52,9 @@ instruction returns [TP2.ASD.Expression out]
     | print {
         $out = $print.out;
     }
+    | read {
+        $out = $read.out;
+    }
     ;
 
 affectation returns [TP2.ASD.AbstractAffectExpression out]
@@ -101,6 +104,12 @@ else_condition returns [TP2.ASD.condition.ElseConditionExpression out]
 print returns [TP2.ASD.PrintExpression out]
     : PRINT p=print_content_list {
         $out = new TP2.ASD.PrintExpression($p.out);
+    }
+    ;
+
+read returns [TP2.ASD.Expression out]
+    : READ p=IDENT {
+        $out = new TP2.ASD.ReadExpression($p.text);
     }
     ;
 

@@ -73,6 +73,7 @@ public class Llvm {
         "target triple = \"x86_64-unknown-linux-gnu\"\n" +
         "; External declaration of the printf function\n" +
         "declare i32 @printf(i8* noalias nocapture, ...)\n" +
+        "declare i32 @scanf(i8* noalias nocapture, ...)\n" +
         "\n; Actual code begins\n\n");
 
       for(Instruction inst: header)
@@ -162,6 +163,20 @@ public class Llvm {
       return "i8";
     }
 
+  }
+
+  public static class Ptr<E extends Type> extends Type {
+
+    private final E type;
+
+    public Ptr(E type) {
+      this.type = type;
+    }
+
+    @Override
+    public String toString() {
+      return type.toString() + "*";
+    }
   }
 
 }

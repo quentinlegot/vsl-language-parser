@@ -50,6 +50,7 @@ WHILE : 'WHILE';
 DO  : 'DO';
 DONE : 'DONE' ;
 PRINT : 'PRINT';
+READ : 'READ';
 
 // other tokens (no conflict with keywords in VSL)
 IDENT   : LETTER (LETTER|DIGIT)*;

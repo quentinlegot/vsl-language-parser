@@ -17,6 +17,6 @@ public class DeclareGlobalVarInstruction extends Instruction {
 
     @Override
     public String toString() {
-        return "@" + name + " = global " + "[" + length + " x " + type + "] c\"" + content + "\"";
+        return "@" + name + " = global " + "[" + length + " x " + type + "] c\"" + content + "\"\n";
     }
 }

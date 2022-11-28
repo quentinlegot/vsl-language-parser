@@ -13,6 +13,6 @@ public class LabelInstruction extends Instruction {
 
     @Override
     public String toString() {
-        return label + ":\n";
+        return label + ":\n"; // jump
     }
 }
