@@ -36,11 +36,13 @@ public class BlockExpression extends Expression {
         SymbolTable blockTable = new SymbolTable(table);
         RetExpression startRet = instructions.get(0).toIR(blockTable, indent);
         for (int i = 1; i < instructions.size(); i++) {
-            // TODO check if return expression exist
-            RetExpression ret = instructions.get(i).toIR(blockTable, indent);
+            Expression instruction = instructions.get(i);
+            if(instruction instanceof ReturnExpression) {
+                alreadyHasReturn = true;
+            }
+            RetExpression ret = instruction.toIR(blockTable, indent);
             startRet.ir.append(ret.ir);
         }
-        // TODO only add a return instruction when type isn't void
         if(!alreadyHasReturn && isFunctionBlock) {
             Instruction retExpr = new Return(indent, type.toLlvmType(), (type instanceof Void) ? "" : "0"); // default value is 0 if no return has been added in vsl code
             startRet.ir.appendCode(retExpr);

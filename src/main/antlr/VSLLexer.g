@@ -38,10 +38,11 @@ AFFECTSYMBOL : ':=';
 // TODO : other keywords
 // var types
 INT : 'INT' ;
+VOID : 'VOID';
 
 // instructions
 FUNC: 'FUNC' ;
-VOID: 'VOID' ;
+RETURN : 'RETURN';
 IF  : 'IF' ;
 FI  : 'FI';
 THEN: 'THEN' ;
@@ -51,6 +52,7 @@ DO  : 'DO';
 DONE : 'DONE' ;
 PRINT : 'PRINT';
 READ : 'READ';
+PROTO : 'PROTO';
 
 // other tokens (no conflict with keywords in VSL)
 IDENT   : LETTER (LETTER|DIGIT)*;

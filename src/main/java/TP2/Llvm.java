@@ -81,16 +81,8 @@ public class Llvm {
 
       r.append("\n\n");
 
-      // We create the function main
-      // TODO : remove this when you extend the language
-      r.append("define i32 @main() {\n");
-
-
       for(Instruction inst: code)
         r.append(inst);
-
-      // TODO : remove this when you extend the language
-      r.append("}\n");
 
       return r.toString();
     }

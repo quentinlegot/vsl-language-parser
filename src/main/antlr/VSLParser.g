@@ -11,15 +11,62 @@ options {
   import java.util.stream.Collectors;
   import java.util.Arrays;
   import java.util.LinkedList;
+  import org.antlr.v4.runtime.misc.Pair;
 }
 
 program returns [TP2.ASD.Program out]
-    : e=block EOF {
-    $e.out.setFunctionBlock(true);
-    $e.out.setType(new TP2.ASD.type.Int());
-    $out = new TP2.ASD.Program($e.out);
-    } // TODO : change when you extend the language
+    : e=functions EOF {
+        $out = new TP2.ASD.Program($e.out);
+    }
     ;
+
+functions returns [LinkedList<TP2.ASD.function.AbstractFunctionExpression> out]
+    : f=function fl=functions {
+        $out = $fl.out;
+        $out.addFirst($f.out);
+    }
+    | f=function {
+        $out = new LinkedList<>();
+        $out.add($f.out);
+    }
+    ;
+
+function returns [TP2.ASD.function.AbstractFunctionExpression out]
+    @init { LinkedList<Pair<TP2.ASD.type.Type, String>> par = null; }
+    : FUNC t=function_type i=IDENT LP (fp=function_parameters { par = $fp.out; })? RP ((LB b=block RB)|(b=block)){
+        $out = new TP2.ASD.function.FunctionExpression($t.out, $i.text, par, $b.out);
+    }
+    | PROTO t=function_type i=IDENT LP (fp=function_parameters { par = $fp.out; })? RP {
+        $out = new TP2.ASD.function.PrototypeExpression($t.out, $i.text, par);
+    }
+    ;
+
+function_type returns [TP2.ASD.type.Type out]
+    : type {
+        $out = $type.out;
+    }
+    | VOID {
+        $out = new TP2.ASD.type.Void();
+    }
+    ;
+
+function_parameters returns [LinkedList<Pair<TP2.ASD.type.Type, String>> out]
+    : p=parameter COMMA fp=function_parameters {
+        $out = $fp.out;
+        $out.addFirst($p.out);
+    }
+    | p=parameter {
+        $out = new LinkedList<>();
+        $out.add($p.out);
+    }
+    ;
+
+parameter returns [Pair<TP2.ASD.type.Type, String> out]
+    : IDENT {
+        $out = new Pair<>(new TP2.ASD.type.Int(), $IDENT.text);
+    }
+    ;
+
 
 block returns [TP2.ASD.BlockExpression out]
     : e=instructionList { $out = new TP2.ASD.BlockExpression($e.out); }
@@ -54,6 +101,9 @@ instruction returns [TP2.ASD.Expression out]
     }
     | read {
         $out = $read.out;
+    }
+    | returnExpr {
+        $out = $returnExpr.out;
     }
     ;
 
@@ -129,6 +179,12 @@ print_content returns [TP2.ASD.Expression out]
     | e=expression { $out = $e.out; }
     ;
 
+returnExpr returns [TP2.ASD.Expression out]
+    : RETURN e=expression {
+        $out = new TP2.ASD.ReturnExpression($e.out);
+    }
+    ;
+
 expression returns [TP2.ASD.Expression out]
     : l=expression PLUS r=factor  { $out = new TP2.ASD.operation.AddExpression($l.out, $r.out); }
     | l=expression MINUS r=factor { $out = new TP2.ASD.operation.MinusExpression($l.out, $r.out); }
@@ -150,5 +206,4 @@ primary returns [TP2.ASD.Expression out]
 
 type returns [ TP2.ASD.type.Type out ]
     : i=INT { $out = new TP2.ASD.type.Int(); }
-    // TODO add more types (like char)
     ;

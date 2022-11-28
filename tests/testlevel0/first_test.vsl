@@ -1,16 +1,27 @@
-INT var1, var2[10], var3
-var1 := 4
-var2[var1] := 6
-IF 1 THEN
-var3 := 1 - 2 * 3 - 4
-ELSE
-var3 := 5
-FI
+PROTO INT fact(n)
 
-WHILE var1 DO
-var1 := var1 - 1
-DONE
+FUNC INT main() {
+    INT var1, var2[10], var3
+    var1 := 4
+    var2[var1] := 6
+    IF 1 THEN
+    var3 := 1 - 2 * 3 - 4
+    ELSE
+    var3 := 5
+    FI
 
-PRINT "la valeur de var1 est ", var1, ".\n"
-READ var3
-PRINT "La valeur de var3 est ", var3, ".\n"
+    WHILE var1 DO
+    var1 := var1 - 1
+    DONE
+
+    PRINT "la valeur de var1 est ", var1, ".\n"
+    READ var3
+    PRINT "La valeur de var3 est ", var3, ".\n"
+}
+
+FUNC INT fact(n)
+    IF n THEN
+        RETURN n//* fact(n-1)
+    ELSE
+        RETURN 1
+    FI
