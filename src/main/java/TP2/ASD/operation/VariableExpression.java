@@ -9,9 +9,15 @@ import TP2.operation.LoadVariable;
 public class VariableExpression extends Expression {
 
     private final String name;
+    private final Expression tabContent; // TODO add support for tab
 
     public VariableExpression(String name) {
+       this(name, null);
+    }
+
+    public VariableExpression(String name, Expression tabContent) {
         this.name = "%" + name;
+        this.tabContent = tabContent;
     }
 
     @Override
@@ -25,8 +31,14 @@ public class VariableExpression extends Expression {
         if(symbol instanceof SymbolTable.VariableSymbol) {
             String tmpVar = Utils.newtmp();
             RetExpression ret = new RetExpression(new Llvm.IR(Llvm.empty(), Llvm.empty()), new Int(), tmpVar);
-            SymbolTable.VariableSymbol variableSymbol = (SymbolTable.VariableSymbol) symbol;
-            Instruction variableLoad = new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), name);
+            Instruction variableLoad;
+            if(symbol instanceof SymbolTable.ArgumentVariableSymbol) {
+                SymbolTable.ArgumentVariableSymbol variableSymbol = (SymbolTable.ArgumentVariableSymbol) symbol;
+                variableLoad = new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), variableSymbol.getNameToUse());
+            } else {
+                SymbolTable.VariableSymbol variableSymbol = (SymbolTable.VariableSymbol) symbol;
+                variableLoad = new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), name);
+            }
             ret.ir.appendCode(variableLoad);
             return ret;
         } else {

@@ -3,15 +3,14 @@ package TP2.ASD.function;
 import TP2.ASD.BlockExpression;
 import TP2.ASD.RetExpression;
 import TP2.ASD.type.Type;
-import TP2.Instruction;
-import TP2.Llvm;
-import TP2.SymbolTable;
-import TP2.TypeException;
+import TP2.*;
 import TP2.function.EndFunctionInstruction;
 import TP2.function.PrototypeInstruction;
 import org.antlr.v4.runtime.misc.Pair;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class FunctionExpression extends AbstractFunctionExpression {
     private final BlockExpression block;
@@ -40,15 +39,32 @@ public class FunctionExpression extends AbstractFunctionExpression {
                 throw new TypeException(ident + " has already been defined as variable");
             }
         }
+        table.remove("@" + ident); // remove if already declared by prototype
         SymbolTable nTable = new SymbolTable(table);
+        List<SymbolTable.VariableSymbol> arguments = new ArrayList<>();
+
         if(parameters != null) {
+            int counter = 0;
             for(Pair<Type, String> parameter : parameters) {
-                nTable.add(new SymbolTable.VariableSymbol(parameter.a, "%" + parameter.b));
+                counter++;
+                SymbolTable.VariableSymbol arg = new SymbolTable.ArgumentVariableSymbol(parameter.a, "%" + parameter.b, "%" + parameter.b + counter);
+                if(nTable.add(arg)) {
+                    arguments.add(arg);
+                }
             }
         }
+        table.add(new SymbolTable.FunctionSymbol(type, "@" + ident, arguments, true));
         Instruction funcIns = new PrototypeInstruction(indent, type.toLlvmType(), "@" + ident, parameters);
         // TODO alloca des paramètres
         ret.ir.appendCode(funcIns);
+        for(int i = 0; i < arguments.size(); i++) {
+            SymbolTable.VariableSymbol argument = arguments.get(i);
+            Instruction declare = new Declare(indent + 1, argument.getType().toLlvmType(), argument.getIdent() + (i + 1), "", 0);
+            ret.ir.appendCode(declare);
+            Instruction alloca = new Affect(indent + 1, argument.getType().toLlvmType(), argument.getIdent() + (i + 1), argument.getIdent(), null);
+            ret.ir.appendCode(alloca);
+        }
+
         block.setFunctionBlock(true);
         block.setType(type);
         ret.ir.append(block.toIR(nTable, indent + 1).ir);

@@ -105,6 +105,9 @@ instruction returns [TP2.ASD.Expression out]
     | returnExpr {
         $out = $returnExpr.out;
     }
+    | fc=function_call {
+        $out = $fc.out;
+    }
     ;
 
 affectation returns [TP2.ASD.AbstractAffectExpression out]
@@ -157,6 +160,25 @@ print returns [TP2.ASD.PrintExpression out]
     }
     ;
 
+function_call returns [TP2.ASD.Expression out]
+    @init { LinkedList<TP2.ASD.Expression> par = null; }
+    : IDENT LP (fp=parameter_function_call { par = $fp.out; })? RP {
+        $out = new TP2.ASD.operation.FunctionCallExpression($IDENT.text, par);
+    }
+    ;
+
+parameter_function_call returns [LinkedList<TP2.ASD.Expression> out]
+    : e=expression COMMA pf=parameter_function_call {
+        $out = $pf.out;
+        $out.addFirst($e.out);
+    }
+    | e=expression {
+        $out = new LinkedList<>();
+        $out.add($e.out);
+    }
+    ;
+
+
 read returns [TP2.ASD.Expression out]
     : READ p=IDENT {
         $out = new TP2.ASD.ReadExpression($p.text);
@@ -201,6 +223,8 @@ primary returns [TP2.ASD.Expression out]
     : MINUS p=primary { $out = new TP2.ASD.operation.MulExpression(new TP2.ASD.IntegerExpression(-1), $p.out); }
     | INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
     | IDENT { $out = new TP2.ASD.operation.VariableExpression($IDENT.text); }
+    | IDENT LSB index=expression RSB { $out = new TP2.ASD.operation.VariableExpression($IDENT.text, $index.out); }
+    | fc=function_call { $out = $fc.out; }
     | LP e=expression RP { $out = $e.out; }
     ;
 

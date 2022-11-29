@@ -6,9 +6,9 @@ import TP2.Utils;
 
 public class LoadVariable extends Instruction {
 
-    private final String name;
-    private final Llvm.Type type;
-    private final String toTmp;
+    protected final String name;
+    protected final Llvm.Type type;
+    protected final String toTmp;
 
     public LoadVariable(int indent, String toTmp, Llvm.Type type, String name) {
         super(indent);

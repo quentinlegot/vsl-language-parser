@@ -24,10 +24,14 @@ public class SymbolTable {
    */
   public abstract static class Symbol {
     String ident; // minimum, used in the storage map
+
+    public String getIdent() {
+      return ident;
+    }
   }
 
   public static class VariableSymbol extends Symbol {
-    private Type type;
+    private final Type type;
 
     /**
      * A variable symbol
@@ -58,6 +62,27 @@ public class SymbolTable {
     }
   }
 
+  public static class ArgumentVariableSymbol extends VariableSymbol {
+
+    private final String nameToUse;
+
+    /**
+     * A variable symbol
+     *
+     * @param type  the type of the symbol
+     * @param ident the name of the symbol as marked in vsl
+     * @param nameToUse the name of the symbol to use in ir
+     */
+    public ArgumentVariableSymbol(Type type, String ident, String nameToUse) {
+      super(type, ident);
+      this.nameToUse = nameToUse;
+    }
+
+    public String getNameToUse() {
+      return nameToUse;
+    }
+  }
+
   public static class FunctionSymbol extends Symbol {
     Type returnType;
     /**
@@ -76,7 +101,7 @@ public class SymbolTable {
      * @param arguments list of arguments of the function. 
      * @param defined false if declared but not defined
      */
-    FunctionSymbol(Type returnType, String ident, List<VariableSymbol> arguments, boolean defined) {
+    public FunctionSymbol(Type returnType, String ident, List<VariableSymbol> arguments, boolean defined) {
       this.returnType = returnType;
       this.ident = ident;
       this.arguments = arguments;
@@ -85,6 +110,14 @@ public class SymbolTable {
 
     public boolean isDefined() {
       return defined;
+    }
+
+    public Type getReturnType() {
+      return returnType;
+    }
+
+    public List<VariableSymbol> getArguments() {
+      return arguments;
     }
 
     @Override public boolean equals(Object obj) {
