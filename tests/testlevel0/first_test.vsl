@@ -15,10 +15,12 @@ FUNC INT main() {
     DONE
 
     PRINT "la valeur de var1 est ", var1, ".\n"
+    PRINT "Veuillez inserer une valeur pour var3:\n"
     READ var3
     PRINT "La valeur de var3 est ", var3, ".\n"
     var1 := fact(5)
     PRINT "La valeur de fact(5) est ", var1, ".\n"
+    PRINT "La valeur de var2[4] est ", var2[4], ".\n"
 }
 
 FUNC INT fact(n)

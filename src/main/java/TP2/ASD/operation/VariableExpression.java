@@ -3,13 +3,14 @@ package TP2.ASD.operation;
 import TP2.ASD.Expression;
 import TP2.ASD.RetExpression;
 import TP2.ASD.type.Int;
+import TP2.ASD.type.Tab;
 import TP2.*;
 import TP2.operation.LoadVariable;
 
 public class VariableExpression extends Expression {
 
     private final String name;
-    private final Expression tabContent; // TODO add support for tab
+    private final Expression tabContent;
 
     public VariableExpression(String name) {
        this(name, null);
@@ -34,10 +35,10 @@ public class VariableExpression extends Expression {
             Instruction variableLoad;
             if(symbol instanceof SymbolTable.ArgumentVariableSymbol) {
                 SymbolTable.ArgumentVariableSymbol variableSymbol = (SymbolTable.ArgumentVariableSymbol) symbol;
-                variableLoad = new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), variableSymbol.getNameToUse());
+                variableLoad = createLoadInstruction(indent, table, variableSymbol, variableSymbol.getNameToUse(), ret, tmpVar);
             } else {
                 SymbolTable.VariableSymbol variableSymbol = (SymbolTable.VariableSymbol) symbol;
-                variableLoad = new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), name);
+                variableLoad = createLoadInstruction(indent, table, variableSymbol, name, ret, tmpVar);
             }
             ret.ir.appendCode(variableLoad);
             return ret;
@@ -45,5 +46,15 @@ public class VariableExpression extends Expression {
             throw new NullPointerException(name + " variable is undeclared");
         }
 
+    }
+
+    private Instruction createLoadInstruction(int indent, SymbolTable table, SymbolTable.VariableSymbol variableSymbol, String symbolNameToUse, RetExpression ret, String tmpVar) throws TypeException {
+        if(variableSymbol.getType() instanceof Tab) {
+            RetExpression retTab = tabContent.toIR(table, indent);
+            ret.ir.append(retTab.ir);
+            return new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), symbolNameToUse, retTab.result);
+        } else {
+            return new LoadVariable(indent, tmpVar, variableSymbol.getType().toLlvmType(), symbolNameToUse);
+        }
     }
 }
