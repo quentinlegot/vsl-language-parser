@@ -31,4 +31,16 @@ public class Div extends Instruction {
     public String toString() {
         return Utils.indent(indent) + lvalue + " = div " + type + " " + left + ", " + right +  "\n";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)
+            return true;
+        if(obj == null)
+            return false;
+        if(!(obj instanceof Div))
+            return false;
+        Div o = (Div) obj;
+        return this.left.equals(o.left) && this.right.equals(o.right) && this.type.equals(o.type) && this.lvalue.equals(o.lvalue);
+    }
 }

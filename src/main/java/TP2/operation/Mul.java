@@ -33,4 +33,16 @@ public class Mul extends Instruction {
     public String toString() {
         return Utils.indent(indent) + lvalue + " = mul " + type + " " + left + ", " + right +  "\n";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)
+            return true;
+        if(obj == null)
+            return false;
+        if(!(obj instanceof Mul))
+            return false;
+        Mul o = (Mul) obj;
+        return this.left.equals(o.left) && this.right.equals(o.right) && this.type.equals(o.type) && this.lvalue.equals(o.lvalue);
+    }
 }
