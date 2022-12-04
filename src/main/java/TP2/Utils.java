@@ -7,7 +7,7 @@ public class Utils {
   private static int tmp = 0;
   private static int lab = 0;
   private static int glob = 0;
-  private final static Pattern re = Pattern.compile("\\\\n");
+  private static final Pattern re = Pattern.compile("\\\\n");
 
   /**
    * 
@@ -21,6 +21,16 @@ public class Utils {
     return r.toString();
   }
 
+
+  /**
+   * This method reset every counter (tmp var, global and label) to 0
+   * very useful for test, <b>should not be used outside tests cases</b>
+   */
+  public static void resetCounter() {
+    tmp = 0;
+    glob = 0;
+    lab = 0;
+  }
 
   /**
    * Generate a new unique local identifier (starting with %)

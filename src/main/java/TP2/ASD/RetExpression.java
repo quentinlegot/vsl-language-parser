@@ -35,4 +35,21 @@ public class RetExpression {
         this.type = type;
         this.result = result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        if(obj == null)
+            return false;
+        if(!(obj instanceof RetExpression))
+            return false;
+        RetExpression other = (RetExpression) obj;
+        return this.ir.equals(other.ir) && this.type.equals(other.type) && this.result.equals(other.result);
+    }
+
+    @Override
+    public String toString() {
+        return "RetExpression[ir=" + this.ir.toString() + ", type=" + this.type.toString() + ",result:" + this.result+ "]";
+    }
 }

@@ -1,24 +1,24 @@
 package TP2;
 
 import TP2.ASD.type.Int;
-import junit.framework.TestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
-public class SymbolTableTest extends TestCase {
+class SymbolTableTest {
+
   @Test
-  public static void testLookupEmpty() {
+  void testLookupEmpty() {
     SymbolTable table = new SymbolTable();
 
     assertNull(table.lookup("unknown"));
   }
 
   @Test
-  public static void testSimple() {
+  void testSimple() {
     SymbolTable table = new SymbolTable();
     SymbolTable.Symbol sym = new SymbolTable.VariableSymbol(new Int(), "key");
 
@@ -35,7 +35,7 @@ public class SymbolTableTest extends TestCase {
   }
 
   @Test
-  public static void testParent() {
+  void testParent() {
     SymbolTable parent = new SymbolTable();
     SymbolTable.Symbol sym = new SymbolTable.VariableSymbol(new Int(), "key");
 
@@ -54,7 +54,7 @@ public class SymbolTableTest extends TestCase {
   }
 
   @Test
-  public static void testEquals() {
+  void testEquals() {
     SymbolTable table = new SymbolTable();
     SymbolTable table2 = new SymbolTable();
     SymbolTable.Symbol sym = new SymbolTable.VariableSymbol(new Int(), "key");
@@ -80,7 +80,7 @@ public class SymbolTableTest extends TestCase {
     arguments.add(0, arg1);
 
     SymbolTable.Symbol fun = new SymbolTable.FunctionSymbol(new Int(), "fun", arguments, true);
-    SymbolTable.Symbol fun2 = new SymbolTable.FunctionSymbol(new Int(), "fun2", new ArrayList<SymbolTable.VariableSymbol>(), true);
+    SymbolTable.Symbol fun2 = new SymbolTable.FunctionSymbol(new Int(), "fun2", new ArrayList<>(), true);
 
     assertNotEquals(fun, fun2);
     assertTrue(table2.add(fun));

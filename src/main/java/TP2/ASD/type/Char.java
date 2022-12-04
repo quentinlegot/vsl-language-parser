@@ -13,4 +13,9 @@ public class Char extends Type {
     public Llvm.Type toLlvmType() {
         return new Llvm.Char();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Char;
+    }
 }

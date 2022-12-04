@@ -8,167 +8,216 @@ import java.util.List;
  * and methods to generate its string representation
  */
 public class Llvm {
-  public static class IR {
-    /**
-     *  IR instructions to be placed before the code (global definitions)
-     */ 
-    List<Instruction> header; 
-    /**
-     *  IR composing the main code
-     */ 
-    List<Instruction> code; 
+    public static class IR {
+        /**
+         *  IR instructions to be placed before the code (global definitions)
+         */
+        List<Instruction> header;
+        /**
+         *  IR composing the main code
+         */
+        List<Instruction> code;
 
-    public IR() {
-      this.header = Llvm.empty();
-      this.code = Llvm.empty();
+        public IR() {
+            this.header = Llvm.empty();
+            this.code = Llvm.empty();
+        }
+
+        /**
+         * Creates an IR based on two lists of instructions
+         * @param header the instructions to be placed before the code
+         * @param code the main code
+         */
+        public IR(List<Instruction> header, List<Instruction> code) {
+            this.header = header;
+            this.code = code;
+        }
+
+        /**
+         * Append two IR.
+         * Append the header of the second to the first, and idem for the code
+         * @param other the other IR
+         * @return
+         */
+        public IR append(IR other) {
+            header.addAll(other.header);
+            code.addAll(other.code);
+            return this;
+        }
+
+        /**
+         * Append an instruction to the IR's code
+         * @param inst the instruction to append
+         * @return
+         */
+        public IR appendCode(Instruction inst) {
+            code.add(inst);
+            return this;
+        }
+
+        /**
+         * Append an instruction to the IR's header
+         * @param inst the instruction to append
+         * @return
+         */
+        public IR appendHeader(Instruction inst) {
+            header.add(inst);
+            return this;
+        }
+
+        public String toString() {
+            // This header describe to LLVM the target
+            // and declare the external function printf
+            StringBuilder r = new StringBuilder("; Target\n" +
+                    "target triple = \"x86_64-unknown-linux-gnu\"\n" +
+                    "; External declaration of the printf function\n" +
+                    "declare i32 @printf(i8* noalias nocapture, ...)\n" +
+                    "declare i32 @scanf(i8* noalias nocapture, ...)\n" +
+                    "\n; Actual code begins\n\n");
+
+            for(Instruction inst: header)
+                r.append(inst);
+
+            r.append("\n\n");
+
+            for(Instruction inst: code)
+                r.append(inst);
+
+            return r.toString();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(obj == this)
+                return true;
+            if(obj == null)
+                return false;
+            if(!(obj instanceof IR))
+                return false;
+            IR o = (IR) obj;
+            return this.code.equals(o.code) && this.header.equals(o.header);
+        }
     }
 
     /**
-     * Creates an IR based on two lists of instructions
-     * @param header the instructions to be placed before the code
-     * @param code the main code
+     * Returns a new empty list of instruction, handy
      */
-    public IR(List<Instruction> header, List<Instruction> code) {
-      this.header = header;
-      this.code = code;
+    public static List<Instruction> empty() {
+        return new ArrayList<>();
     }
+
+
+    // LLVM Types
 
     /**
-     * Append two IR.
-     * 
-     * Append the header of the second to the first, and idem for the code
-     * @param other the other IR
-     * @return
+     * The abstract type representing the LLVM types
      */
-    public IR append(IR other) {
-      header.addAll(other.header);
-      code.addAll(other.code);
-      return this;
+    public abstract static class Type {
+        public abstract String toString();
+
+        public int getSize() {
+            return 1; // default value
+        }
     }
 
-    /**
-     * Append an instruction to the IR's code
-     * @param inst the instruction to append
-     * @return
-     */
-    public IR appendCode(Instruction inst) {
-      code.add(inst);
-      return this;
+    public static class Void extends Type {
+
+        @Override
+        public String toString() {
+            return "void";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof Void;
+        }
     }
 
-    /**
-     * Append an instruction to the IR's header
-     * @param inst the instruction to append
-     * @return
-     */
-    public IR appendHeader(Instruction inst) {
-      header.add(inst);
-      return this;
+    public static class Int extends Type {
+        public String toString() {
+            return "i32";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof Int;
+        }
     }
 
-    public String toString() {
-      // This header describe to LLVM the target
-      // and declare the external function printf
-      StringBuilder r = new StringBuilder("; Target\n" +
-        "target triple = \"x86_64-unknown-linux-gnu\"\n" +
-        "; External declaration of the printf function\n" +
-        "declare i32 @printf(i8* noalias nocapture, ...)\n" +
-        "declare i32 @scanf(i8* noalias nocapture, ...)\n" +
-        "\n; Actual code begins\n\n");
+    public static class Tab<E extends Type> extends Type {
 
-      for(Instruction inst: header)
-        r.append(inst);
+        public final E type;
+        private final int size;
 
-      r.append("\n\n");
+        public Tab(E type, int size) {
+            this.type = type;
+            this.size = size;
+        }
 
-      for(Instruction inst: code)
-        r.append(inst);
+        public E getInnerType() {
+            return type;
+        }
 
-      return r.toString();
-    }
-  }
+        @Override
+        public int getSize() {
+            return size;
+        }
 
-  /**
-   * Returns a new empty list of instruction, handy
-   */
-  public static List<Instruction> empty() {
-    return new ArrayList<>();
-  }
+        @Override
+        public String toString() {
+            return type + "*";
+        }
 
-
-  // LLVM Types
-
-  /**
-   * The abstract type representing the LLVM types
-   */
-  public abstract static class Type {
-    public abstract String toString();
-
-    public int getSize() {
-      return 1; // default value
-    }
-  }
-
-  public static class Void extends Type {
-
-    @Override
-    public String toString() {
-      return "void";
-    }
-  }
-
-  public static class Int extends Type {
-    public String toString() {
-      return "i32";
-    }
-  }
-
-  public static class Tab<E extends Type> extends Type {
-
-    public final E type;
-    private final int size;
-
-    public Tab(E type, int size) {
-      this.type = type;
-      this.size = size;
+        @Override
+        public boolean equals(Object obj) {
+            if(obj == this)
+                return true;
+            if(obj == null)
+                return false;
+            if(!(obj instanceof Tab<?>))
+                return false;
+            Tab<?> o = (Tab<?>) obj;
+            return this.size == o.size && this.type.equals(o.type);
+        }
     }
 
-    public E getInnerType() {
-      return type;
+    public static class Char extends Type {
+
+        @Override
+        public String toString() {
+            return "i8";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof Char;
+        }
     }
 
-    @Override
-    public int getSize() {
-      return size;
+    public static class Ptr<E extends Type> extends Type {
+
+        private final E type;
+
+        public Ptr(E type) {
+            this.type = type;
+        }
+
+        @Override
+        public String toString() {
+            return type.toString() + "*";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(obj == this)
+                return true;
+            if(obj == null)
+                return false;
+            if(!(obj instanceof Ptr<?>))
+                return false;
+            Ptr<?> o = (Ptr<?>) obj;
+            return this.type.equals(o.type);
+        }
     }
-
-    @Override
-    public String toString() {
-      return type + "*";
-    }
-  }
-
-  public static class Char extends Type {
-
-    @Override
-    public String toString() {
-      return "i8";
-    }
-
-  }
-
-  public static class Ptr<E extends Type> extends Type {
-
-    private final E type;
-
-    public Ptr(E type) {
-      this.type = type;
-    }
-
-    @Override
-    public String toString() {
-      return type.toString() + "*";
-    }
-  }
 
 }

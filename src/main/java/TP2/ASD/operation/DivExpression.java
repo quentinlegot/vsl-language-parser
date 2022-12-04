@@ -1,53 +1,18 @@
 package TP2.ASD.operation;
 
 import TP2.ASD.Expression;
-import TP2.ASD.RetExpression;
 import TP2.Instruction;
-import TP2.SymbolTable;
-import TP2.TypeException;
-import TP2.Utils;
+import TP2.Llvm;
 import TP2.operation.Div;
 
-public class DivExpression extends Expression {
-
-    Expression left;
-    Expression right;
+public class DivExpression extends AbstractOperationExpression {
 
     public DivExpression(Expression left, Expression right) {
-        this.left = left;
-        this.right = right;
+        super(left, right, "/");
     }
-
     @Override
-    public String pp() {
-        return "(" + left.pp() + " / " + right.pp() + ")";
+    protected Instruction operationInstruction(int indent, Llvm.Type type, String leftResult, String rightResult, String tmpVar) {
+        return new Div(indent, type, leftResult, rightResult, tmpVar);
     }
 
-    @Override
-    public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
-        RetExpression leftRet = left.toIR(table, indent);
-        RetExpression rightRet = right.toIR(table, indent);
-
-        // We check if the types mismatches
-        if(!leftRet.type.equals(rightRet.type)) {
-            throw new TypeException("type mismatch: have " + leftRet.type + " and " + rightRet.type);
-        }
-
-        // We base our build on the left generated IR:
-        // append right code
-        leftRet.ir.append(rightRet.ir);
-
-        // allocate a new identifier for the result
-        String result = Utils.newtmp();
-
-        // new add instruction result = left + right
-        Instruction div = new Div(indent, leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
-
-        // append this instruction
-        leftRet.ir.appendCode(div);
-
-        // return the generated IR, plus the type of this expression
-        // and where to find its result
-        return new RetExpression(leftRet.ir, leftRet.type, result);
-    }
 }
