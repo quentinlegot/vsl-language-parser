@@ -14,7 +14,7 @@ public class ReadExpression extends Expression {
 
     @Override
     public String pp() {
-        return "READ " + ident + "\n";
+        return "READ %" + ident + "\n";
     }
 
     @Override
