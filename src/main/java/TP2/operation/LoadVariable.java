@@ -4,6 +4,8 @@ import TP2.Instruction;
 import TP2.Llvm;
 import TP2.Utils;
 
+import java.util.Objects;
+
 public class LoadVariable extends Instruction {
 
     protected final String name;
@@ -36,5 +38,18 @@ public class LoadVariable extends Instruction {
             finalString = Utils.indent(indent) + toTmp + " = load " + type.toString() + ", " + type + "* " + name + "\n";
         }
         return finalString;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)
+            return true;
+        if(obj == null)
+            return false;
+        if(!(obj instanceof LoadVariable))
+            return false;
+        LoadVariable o = (LoadVariable) obj;
+        return this.name.equals(o.name) && this.toTmp.equals(o.toTmp) && this.type.equals(o.type)
+                && this.indent == o.indent && Objects.equals(this.index, o.index);
     }
 }

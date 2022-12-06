@@ -1,6 +1,7 @@
 package TP2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -84,6 +85,15 @@ public class Llvm {
                 r.append(inst);
 
             return r.toString();
+        }
+
+        /**
+         * As toString is used to display final result(should not) instead of debug method,
+         * I create a "debug" method to replace it
+         * @return
+         */
+        public String debug() {
+            return "header=" + Arrays.toString(header.toArray()) + "],code=[" + Arrays.toString(code.toArray()) + "];";
         }
 
         @Override

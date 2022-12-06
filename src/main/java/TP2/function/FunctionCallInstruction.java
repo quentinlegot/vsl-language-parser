@@ -38,4 +38,17 @@ public class FunctionCallInstruction extends Instruction {
         }
         return str.append(")\n").toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)
+            return true;
+        if(obj == null)
+            return false;
+        if(!(obj instanceof FunctionCallInstruction))
+            return false;
+        FunctionCallInstruction o = (FunctionCallInstruction) obj;
+        return this.ident.equals(o.ident) && this.returnType.equals(o.returnType) && this.parameters.equals(o.parameters)
+                && this.storeVar.equals(o.storeVar);
+    }
 }

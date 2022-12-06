@@ -50,6 +50,6 @@ public class RetExpression {
 
     @Override
     public String toString() {
-        return "RetExpression[ir=" + this.ir.toString() + ", type=" + this.type.toString() + ",result:" + this.result+ "]";
+        return "RetExpression[ir=" + this.ir.debug() + ", type=" + this.type.toString() + ",result:" + this.result+ "]";
     }
 }

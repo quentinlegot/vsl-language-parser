@@ -23,7 +23,7 @@ public class VariableExpression extends Expression {
 
     @Override
     public String pp() {
-        return name;
+        return name + (tabContent != null ? "[" + tabContent.pp() + "]": "");
     }
 
     @Override
