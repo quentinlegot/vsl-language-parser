@@ -9,7 +9,7 @@ public class TabDeclareExpression extends AbstractDeclareExpression {
     protected final IntegerExpression numberTab;
 
     public TabDeclareExpression(Type type, String name, LinkedList<AbstractDeclareExpression> othersDeclare, IntegerExpression numberTab) {
-        super(type, name, othersDeclare);
+        super(type, name, othersDeclare, null);
         this.numberTab = numberTab;
     }
 }

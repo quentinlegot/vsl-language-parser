@@ -37,7 +37,7 @@ public class Program {
         SymbolTable rootTable = new SymbolTable();
         // check if function main exist
         RetExpression ret = new RetExpression(new Llvm.IR(), new Void(), "");
-        if(functions.stream().filter(f -> f.getIdent().equals("main")).count() != 1) {
+        if(functions.stream().filter(f -> f.getIdent().equals("main") && f instanceof FunctionExpression).count() != 1) {
             throw new IllegalArgumentException("function main doesn't exist or exist multiple times, " + functions.toString());
         }
         ArrayList<AbstractFunctionExpression> copy = new ArrayList<>(functions);

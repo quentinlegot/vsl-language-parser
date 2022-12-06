@@ -29,7 +29,7 @@ public class Div extends Instruction {
 
     @Override
     public String toString() {
-        return Utils.indent(indent) + lvalue + " = div " + type + " " + left + ", " + right +  "\n";
+        return Utils.indent(indent) + lvalue + " = sdiv " + type + " " + left + ", " + right +  "\n";
     }
 
     @Override

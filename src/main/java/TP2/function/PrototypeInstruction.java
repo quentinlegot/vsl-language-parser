@@ -32,6 +32,6 @@ public class PrototypeInstruction extends Instruction {
                 }
             }
         }
-        return str.append(") {\n").toString();
+        return str.append(")\n").toString();
     }
 }

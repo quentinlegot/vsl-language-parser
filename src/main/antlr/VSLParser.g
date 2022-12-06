@@ -33,11 +33,20 @@ functions returns [LinkedList<TP2.ASD.function.AbstractFunctionExpression> out]
 
 function returns [TP2.ASD.function.AbstractFunctionExpression out]
     @init { LinkedList<Pair<TP2.ASD.type.Type, String>> par = null; }
-    : FUNC t=function_type i=IDENT LP (fp=function_parameters { par = $fp.out; })? RP ((LB b=block RB)|(b=block)){
+    : FUNC t=function_type i=IDENT LP (fp=function_parameters { par = $fp.out; })? RP b=function_content {
         $out = new TP2.ASD.function.FunctionExpression($t.out, $i.text, par, $b.out);
     }
     | PROTO t=function_type i=IDENT LP (fp=function_parameters { par = $fp.out; })? RP {
         $out = new TP2.ASD.function.PrototypeExpression($t.out, $i.text, par);
+    }
+    ;
+
+function_content returns [TP2.ASD.Expression out]
+    : b=block {
+        $out = $b.out;
+    }
+    | i=instruction {
+        $out = $i.out;
     }
     ;
 
@@ -69,7 +78,7 @@ parameter returns [Pair<TP2.ASD.type.Type, String> out]
 
 
 block returns [TP2.ASD.BlockExpression out]
-    : e=instructionList { $out = new TP2.ASD.BlockExpression($e.out); }
+    : LB e=instructionList RB { $out = new TP2.ASD.BlockExpression($e.out); }
     ;
 
 instructionList returns [LinkedList<TP2.ASD.Expression> out]
@@ -108,6 +117,9 @@ instruction returns [TP2.ASD.Expression out]
     | fc=function_call {
         $out = $fc.out;
     }
+    | b=block {
+        $out = $b.out;
+    }
     ;
 
 affectation returns [TP2.ASD.AbstractAffectExpression out]
@@ -120,8 +132,8 @@ affectation returns [TP2.ASD.AbstractAffectExpression out]
     ;
 
 declaration returns [TP2.ASD.AbstractDeclareExpression out]
-    : t=type { LinkedList<TP2.ASD.AbstractDeclareExpression> l = new LinkedList<>(); }
-    (((i=IDENT { l.add(new TP2.ASD.SimpleDeclareExpression($t.out, $i.text, l)); })
+    : t=type { LinkedList<TP2.ASD.AbstractDeclareExpression> l = new LinkedList<>(); TP2.ASD.Expression e = null; }
+    (((i=IDENT (EQUAL e=expression { e = $e.out; })? { l.add(new TP2.ASD.SimpleDeclareExpression($t.out, $i.text, l, e)); })
         | (i=IDENT LSB INTEGER RSB { l.add(new TP2.ASD.TabDeclareExpression(new TP2.ASD.type.Tab($t.out, $INTEGER.int), $i.text, l, new TP2.ASD.IntegerExpression($INTEGER.int))); })) COMMA? )*
      {
         $out = l.removeLast();
@@ -129,7 +141,7 @@ declaration returns [TP2.ASD.AbstractDeclareExpression out]
     ;
 
 while returns [TP2.ASD.Expression out]
-    : WHILE e=expression DO b=block DONE {
+    : WHILE e=expression DO b=function_content DONE {
         $out = new TP2.ASD.condition.WhileExpression($e.out, $b.out);
     }
     ;
@@ -143,13 +155,13 @@ if_then_else returns [TP2.ASD.Expression out]
     ;
 
 if_condition returns [TP2.ASD.condition.IfConditionExpression out]
-    : IF e=expression THEN b=block {
+    : IF e=expression THEN b=function_content {
         $out = new TP2.ASD.condition.IfConditionExpression($e.out, $b.out);
     }
     ;
 
 else_condition returns [TP2.ASD.condition.ElseConditionExpression out]
-    : ELSE b=block {
+    : ELSE b=function_content {
         $out = new TP2.ASD.condition.ElseConditionExpression($b.out);
     }
     ;
@@ -158,6 +170,22 @@ print returns [TP2.ASD.PrintExpression out]
     : PRINT p=print_content_list {
         $out = new TP2.ASD.PrintExpression($p.out);
     }
+    ;
+
+print_content_list returns [LinkedList<TP2.ASD.Expression> out]
+    : p=print_content COMMA pl=print_content_list {
+        $out = $pl.out;
+        $out.addFirst($p.out);
+    }
+    | p=print_content {
+        $out = new LinkedList<>();
+        $out.add($p.out);
+    }
+    ;
+
+print_content returns [TP2.ASD.Expression out]
+    : TEXT { $out = new TP2.ASD.StringExpression($TEXT.text); }
+    | e=expression { $out = $e.out; }
     ;
 
 function_call returns [TP2.ASD.Expression out]
@@ -180,25 +208,25 @@ parameter_function_call returns [LinkedList<TP2.ASD.Expression> out]
 
 
 read returns [TP2.ASD.Expression out]
-    : READ p=IDENT {
-        $out = new TP2.ASD.ReadExpression($p.text);
+    : READ r=read_content_list {
+        $out = new TP2.ASD.ReadExpression($r.out);
     }
     ;
 
-print_content_list returns [LinkedList<TP2.ASD.Expression> out]
-    : p=print_content COMMA pl=print_content_list {
-        $out = $pl.out;
-        $out.addFirst($p.out);
+read_content_list returns [LinkedList<Pair<String, TP2.ASD.Expression>> out]
+    : r=read_content COMMA rl=read_content_list {
+        $out = $rl.out;
+        $out.addFirst(new Pair<>($r.name, $r.index));
     }
-    | p=print_content {
+    | r=read_content {
         $out = new LinkedList<>();
-        $out.add($p.out);
+        $out.add(new Pair<>($r.name, $r.index));
     }
     ;
 
-print_content returns [TP2.ASD.Expression out]
-    : TEXT { $out = new TP2.ASD.StringExpression($TEXT.text); }
-    | e=expression { $out = $e.out; }
+read_content returns [String name, TP2.ASD.Expression index]
+    : IDENT { $name = $IDENT.text; $index = null; }
+    | IDENT LSB i=expression RSB  { $name = $IDENT.text; $index = $i.out; }
     ;
 
 returnExpr returns [TP2.ASD.Expression out]

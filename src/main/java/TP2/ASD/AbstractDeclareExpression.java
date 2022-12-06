@@ -11,11 +11,13 @@ public abstract class AbstractDeclareExpression extends Expression {
     protected final Type type;
     protected final String name;
     protected final LinkedList<AbstractDeclareExpression> othersDeclare;
+    private final Expression content;
 
-    protected AbstractDeclareExpression(Type type, String name, LinkedList<AbstractDeclareExpression> othersDeclare) {
+    protected AbstractDeclareExpression(Type type, String name, LinkedList<AbstractDeclareExpression> othersDeclare, Expression content) {
         this.type = type;
         this.name = "%" + name;
         this.othersDeclare = othersDeclare;
+        this.content = content;
     }
 
     @Override
@@ -32,7 +34,9 @@ public abstract class AbstractDeclareExpression extends Expression {
         if(this instanceof TabDeclareExpression) {
             str.append("[").append(((TabDeclareExpression) this).numberTab.value).append("]");
         }
-
+        if(content != null) {
+            str.append(" = ").append(content.pp());
+        }
         return str.append("\n").toString();
     }
 
@@ -57,6 +61,15 @@ public abstract class AbstractDeclareExpression extends Expression {
             numberTab = ((TabDeclareExpression) this).numberTab.value;
         Instruction declare = new Declare(indent, type.toLlvmType(), name, result, numberTab);
         ir.appendCode(declare);
+        if(content != null) {
+            RetExpression content = this.content.toIR(table, indent);
+            ir.append(content.ir);
+            Instruction affect = new Affect(indent, type.toLlvmType(), name, content.result, null);
+            ir.appendCode(affect);
+        }
+
+
+
         return new RetExpression(ir, new Int(), "");
     }
 }

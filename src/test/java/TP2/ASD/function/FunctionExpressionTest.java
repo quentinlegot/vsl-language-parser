@@ -29,8 +29,10 @@ public class FunctionExpressionTest {
         parameters.add(par1);
         parameters.add(par2);
         List<Expression> blockContent = new ArrayList<>();
-        blockContent.add(new SimpleDeclareExpression(new Int(), "var1", new LinkedList<>()));
-        blockContent.add(new ReadExpression("var1"));
+        blockContent.add(new SimpleDeclareExpression(new Int(), "var1", new LinkedList<>(), null));
+        LinkedList<Pair<String, Expression>> readArr = new LinkedList<>();
+        readArr.add(new Pair<>("var1", null));
+        blockContent.add(new ReadExpression(readArr));
         blockContent.add(new ReturnExpression(new VariableExpression("var1")));
         this.content = new BlockExpression(blockContent);
         this.func1 = new FunctionExpression(new Int(), fName, parameters, content);

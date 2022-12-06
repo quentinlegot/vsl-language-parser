@@ -24,11 +24,13 @@ public class FunctionCallExpression extends Expression {
     @Override
     public String pp() {
         StringBuilder str = new StringBuilder(ident + "(");
-        for(int i = 0; i < parameters.size(); i++) {
-            Expression par = parameters.get(i);
-            str.append(par.pp());
-            if(i != parameters.size() - 1) {
-                str.append(", ");
+        if(parameters != null) {
+            for(int i = 0; i < parameters.size(); i++) {
+                Expression par = parameters.get(i);
+                str.append(par.pp());
+                if(i != parameters.size() - 1) {
+                    str.append(", ");
+                }
             }
         }
         str.append(")");
@@ -47,22 +49,23 @@ public class FunctionCallExpression extends Expression {
                 tmpVar = Utils.newtmp();
             }
             RetExpression ret = new RetExpression(new Llvm.IR(), functionSymbol.getReturnType(), tmpVar);
-            if(functionSymbol.getArguments().size() == parameters.size()) {
-                for(int i = 0; i < functionSymbol.getArguments().size(); i++) {
-                    SymbolTable.VariableSymbol arg = functionSymbol.getArguments().get(i);
-                    RetExpression retPar = parameters.get(i).toIR(table, indent);
-                    ret.ir.append(retPar.ir);
-                    parametersList.add(new Pair<>(retPar.type.toLlvmType(), retPar.result));
-                    if(!arg.getType().equals(retPar.type)) {
-                        throw new TypeException("parameter " + i + " type (" + retPar.type + ") of function call " + ident + " doesn't correspond to expected type (" + arg.getType() + ")");
+            if(functionSymbol.getArguments().size() == (parameters != null ? parameters.size() : 0)) {
+                if(parameters != null) {
+                    for(int i = 0; i < functionSymbol.getArguments().size(); i++) {
+                        SymbolTable.VariableSymbol arg = functionSymbol.getArguments().get(i);
+                        RetExpression retPar = parameters.get(i).toIR(table, indent);
+                        ret.ir.append(retPar.ir);
+                        parametersList.add(new Pair<>(retPar.type.toLlvmType(), retPar.result));
+                        if(!arg.getType().equals(retPar.type)) {
+                            throw new TypeException("parameter " + i + " type (" + retPar.type + ") of function call " + ident + " doesn't correspond to expected type (" + arg.getType() + ")");
+                        }
                     }
                 }
-
                 Instruction callIns = new FunctionCallInstruction(indent, "@" + ident, parametersList, tmpVar, functionSymbol.getReturnType().toLlvmType());
                 ret.ir.appendCode(callIns);
                 return ret;
             } else {
-                throw new TypeException("Missing or too many argument for function call " + ident + ", expected: " + functionSymbol.getArguments().size() + ", actual: " + parameters.size());
+                throw new TypeException("Missing or too many argument for function call " + ident + ", expected: " + functionSymbol.getArguments().size() + ", actual: " + (parameters != null ? parameters.size() : 0));
             }
         } else {
             throw new TypeException("You call " + ident + " as function but " + ident + " isn't a function");

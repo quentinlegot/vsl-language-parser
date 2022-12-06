@@ -1,11 +1,15 @@
 package TP2.ASD.function;
 
 import TP2.ASD.BlockExpression;
+import TP2.ASD.Expression;
 import TP2.ASD.RetExpression;
+import TP2.ASD.ReturnExpression;
 import TP2.ASD.type.Type;
+import TP2.ASD.type.Void;
 import TP2.*;
-import TP2.function.EndFunctionInstruction;
+import TP2.function.EndBlockInstruction;
 import TP2.function.PrototypeInstruction;
+import TP2.function.StartBlockInstruction;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
@@ -13,16 +17,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FunctionExpression extends AbstractFunctionExpression {
-    private final BlockExpression block;
+    private final Expression content;
 
-    public FunctionExpression(Type type, String ident, LinkedList<Pair<Type, String>> parameters, BlockExpression block) {
+    public FunctionExpression(Type type, String ident, LinkedList<Pair<Type, String>> parameters, Expression content) {
         super(type, ident, parameters);
-        this.block = block;
+        this.content = content;
     }
 
     @Override
     public String pp() {
-        return "FUNC " + type.pp() + " " + ident + "(" + super.pp() + ")\n{\n" + block.pp()+ "}\n";
+        return "FUNC " + type.pp() + " " + ident + "(" + super.pp() + ")\n{\n" + content.pp()+ "}\n";
     }
 
     @Override
@@ -55,8 +59,9 @@ public class FunctionExpression extends AbstractFunctionExpression {
         }
         table.add(new SymbolTable.FunctionSymbol(type, "@" + ident, arguments, true));
         Instruction funcIns = new PrototypeInstruction(indent, type.toLlvmType(), "@" + ident, parameters);
-        // TODO alloca des paramètres
         ret.ir.appendCode(funcIns);
+        Instruction startBracketIns = new StartBlockInstruction(indent);
+        ret.ir.appendCode(startBracketIns);
         for(int i = 0; i < arguments.size(); i++) {
             SymbolTable.VariableSymbol argument = arguments.get(i);
             Instruction declare = new Declare(indent + 1, argument.getType().toLlvmType(), argument.getIdent() + (i + 1), "", 0);
@@ -65,11 +70,19 @@ public class FunctionExpression extends AbstractFunctionExpression {
             ret.ir.appendCode(alloca);
         }
 
-        block.setFunctionBlock(true);
-        block.setType(type);
-        ret.ir.append(block.toIR(nTable, indent + 1).ir);
-        Instruction endFuncIns = new EndFunctionInstruction();
-        ret.ir.appendCode(endFuncIns);
+        if(content instanceof BlockExpression) {
+            BlockExpression block = (BlockExpression) content;
+            block.setFunctionBlock(true);
+            block.setType(type);
+            ret.ir.append(block.toIR(nTable, indent + 1).ir);
+        } else {
+            RetExpression retContent = content.toIR(nTable, indent + 1);
+            ret.ir.append(retContent.ir);
+            if(!(content instanceof ReturnExpression)) {
+                ret.ir.appendCode(new Return(indent + 1, type.toLlvmType(), (type instanceof Void ? "" : retContent.result)));
+            }
+        }
+        ret.ir.appendCode(new EndBlockInstruction(indent));
         return ret;
     }
 }
