@@ -74,6 +74,9 @@ parameter returns [Pair<TP2.ASD.type.Type, String> out]
     : IDENT {
         $out = new Pair<>(new TP2.ASD.type.Int(), $IDENT.text);
     }
+    | IDENT LSB RSB {
+        $out = null; // TODO
+    }
     ;
 
 
