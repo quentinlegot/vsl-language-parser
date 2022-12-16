@@ -26,7 +26,7 @@ Les instructions print n'ajoute pas de \n à la fin, vous devez le mettre vous-m
 PRINT "var1 vaut ", var1, ".\n"
 ```
 
-Mon implémentation de VSL ne supporte pas le shadowing, à la place, cela retournera une erreur pour vous indiquez que
+Mon implémentation de VSL ne supporte pas le shadowing, à la place, cela retournera une erreur pour vous indiquer que
 vous avez redéclaré la variable.
 
 ## Tests
