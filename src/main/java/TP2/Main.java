@@ -37,15 +37,10 @@ public class Main {
       System.err.println(ast.pp());
 
       // Compute LLVM IR from the ast
-      try {
-        Llvm.IR ir = ast.toIR();
+      Llvm.IR ir = ast.toIR();
 
-        // Output LLVM IR
-        System.out.println(ir);
-      } catch(TypeException e) {
-        e.printStackTrace(); // Useful for developping, not for the ``end users''!
-        System.err.println(e.getMessage());
-      }
+      // Output LLVM IR
+      System.out.println(ir);
     } catch(IOException e) {
       e.printStackTrace();
     }

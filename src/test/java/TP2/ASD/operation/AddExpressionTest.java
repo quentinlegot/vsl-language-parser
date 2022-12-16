@@ -1,13 +1,14 @@
 package TP2.ASD.operation;
 
-import TP2.ASD.Expression;
-import TP2.ASD.IntegerExpression;
+import TP2.ASD.expression.Expression;
 import TP2.ASD.RetExpression;
-import TP2.Instruction;
+import TP2.ASD.expression.operation.AddExpression;
+import TP2.ASD.expression.operation.IntegerExpression;
+import TP2.instruction.Instruction;
 import TP2.SymbolTable;
 import TP2.TypeException;
 import TP2.Utils;
-import TP2.operation.Add;
+import TP2.instruction.operation.Add;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

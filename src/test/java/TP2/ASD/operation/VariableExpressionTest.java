@@ -1,11 +1,13 @@
 package TP2.ASD.operation;
 
-import TP2.ASD.IntegerExpression;
 import TP2.ASD.RetExpression;
+import TP2.ASD.expression.operation.IntegerExpression;
+import TP2.ASD.expression.operation.VariableExpression;
 import TP2.ASD.type.Int;
 import TP2.ASD.type.Tab;
 import TP2.*;
-import TP2.operation.LoadVariable;
+import TP2.instruction.Instruction;
+import TP2.instruction.operation.LoadVariable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

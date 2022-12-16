@@ -1,7 +1,12 @@
 package TP2.ASD.function;
 
-import TP2.ASD.*;
-import TP2.ASD.operation.VariableExpression;
+import TP2.ASD.expression.BlockExpression;
+import TP2.ASD.expression.Expression;
+import TP2.ASD.expression.ReturnExpression;
+import TP2.ASD.expression.SimpleDeclareExpression;
+import TP2.ASD.expression.function.FunctionExpression;
+import TP2.ASD.expression.io.ReadExpression;
+import TP2.ASD.expression.operation.VariableExpression;
 import TP2.ASD.type.Int;
 import TP2.ASD.type.Type;
 import org.antlr.v4.runtime.misc.Pair;

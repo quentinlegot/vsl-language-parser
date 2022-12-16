@@ -1,8 +1,8 @@
 package TP2.ASD;
 
-import TP2.ASD.function.AbstractFunctionExpression;
-import TP2.ASD.function.FunctionExpression;
-import TP2.ASD.function.PrototypeExpression;
+import TP2.ASD.expression.function.AbstractFunctionExpression;
+import TP2.ASD.expression.function.FunctionExpression;
+import TP2.ASD.expression.function.PrototypeExpression;
 import TP2.ASD.type.Void;
 import TP2.Llvm;
 import TP2.SymbolTable;
@@ -10,6 +10,8 @@ import TP2.TypeException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public class Program {
     LinkedList<AbstractFunctionExpression> functions; // What a program contains. TODO : change when you extend the language
@@ -49,9 +51,29 @@ public class Program {
                         .filter(f -> f.getIdent().equals(current.getIdent()) && f instanceof FunctionExpression)
                         .findFirst()
                         .orElseThrow(() -> new NullPointerException("Function " + current.getIdent() + " have a prototype but doesn't have a definition"));
+                if(definition.getParameters() != null) {
+                    if(current.getParameters() == null) {
+                        throw new IllegalArgumentException("Declared parameters in prototype and definition of the function "+ current.getIdent() + " aren't the same");
+                    }
+                    if(definition.getParameters().size() == current.getParameters().size()) {
+                        for(int i = 0; i < definition.getParameters().size(); i++) {
+                            if(!definition.getParameters().get(i).a.equals(current.getParameters().get(i).a)) {
+                                throw new IllegalArgumentException("Declared parameters in prototype and definition of the function "+ current.getIdent() + " aren't the same");
+                            }
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Declared parameters in prototype and definition of the function "+ current.getIdent() + " aren't the same");
+                    }
+                }
+                if(!Objects.equals(definition.getType(), current.getType())) {
+                    throw new IllegalArgumentException("Return type in prototype and definition of the function " + current.getIdent() + " aren't the same");
+                }
                 ret.ir.append(definition.toIR(rootTable, 0).ir);
                 copy.remove(definition);
                 copy.remove(current);
+                if(copy.stream().anyMatch(f -> f.getIdent().equals(current.getIdent()))) {
+                    throw new IllegalArgumentException("Function " + current.getIdent() + " prototype or definition has been redeclared which is forbidden");
+                }
             } else {
                 ret.ir.append(current.toIR(rootTable, 0).ir);
                 copy.remove(current);

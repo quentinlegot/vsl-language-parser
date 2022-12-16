@@ -1,11 +1,15 @@
 package TP2.ASD.operation;
 
-import TP2.ASD.Expression;
-import TP2.ASD.IntegerExpression;
+import TP2.ASD.expression.Expression;
 import TP2.ASD.RetExpression;
+import TP2.ASD.expression.operation.AddExpression;
+import TP2.ASD.expression.operation.FunctionCallExpression;
+import TP2.ASD.expression.operation.IntegerExpression;
+import TP2.ASD.expression.operation.MulExpression;
 import TP2.ASD.type.Int;
 import TP2.*;
-import TP2.function.FunctionCallInstruction;
+import TP2.instruction.function.FunctionCallInstruction;
+import TP2.instruction.Instruction;
 import org.antlr.v4.runtime.misc.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

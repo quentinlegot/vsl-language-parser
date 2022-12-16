@@ -27,6 +27,10 @@ public class Tab<E extends Type> extends Type {
         return size;
     }
 
+    public E getInnerType() {
+        return type;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
