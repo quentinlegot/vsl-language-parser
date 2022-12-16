@@ -1,6 +1,7 @@
 plugins {
   id 'java'
   id 'antlr'
+  id 'application'
 }
 
 repositories {
@@ -30,3 +31,10 @@ jar {
     )
   }
 }
+
+
+
+application {
+  mainClass = 'TP2.Main'
+}
+

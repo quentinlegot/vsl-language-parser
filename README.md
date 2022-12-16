@@ -8,44 +8,32 @@ Le projet a été construit avec gradle 7.6 et ne devrait pas fonctionner avec u
 
 De même, il a été construit avec Java 11 et aussi testé sur java 19, il se peut qu'il fonctionne sur Java 8, mais aucune garantie n'est donnée.
 
-## Structure de fichiers
+## Utilisation
 
-La structure mon projet java est celle-ci :
+### Construire le projet
 
-- TP2.ASD
-  - Contient l'axiome de l'ASD (Program.java) ainsi que le RetExpression
-- TP2.ASD.expression
-  - Les classes java à l'intérieur ainsi que celle qui sont dans des
-  sous paquets dans ce paquet contiennent toutes les expressions de l'ASD
-- TP2.ASD.type
-  - Contient les types d'expression de l'ASD (Int, Void, Char, etc.)
-- TP2.instruction
-  - Contient toutes les instructions LLVM appelées par les expressions
-- TP2.llvm
-  - Contient toutes les classes en lien avec Llvm
+Exécutez la commande suivante:
 
-## Remarques d'implémentations
+`gradle build`
 
-Les instructions print n'ajoute pas de \n à la fin, vous devez le mettre vous-même, par exemple:
+Le résultat apparait dans `build/libs`.
 
-```vsl
-PRINT "var1 vaut ", var1, ".\n"
-```
+### Lancer le projet
 
-Mon implémentation de VSL ne supporte pas le shadowing, à la place, cela retournera une erreur pour vous indiquer que
-vous avez redéclaré la variable.
 
-## Tests
+Plusieurs solutions :
 
-Les tests passent tous et s'exécutent sans soucis, à l'exception de ceux ci-dessous.
+#### Solution 1 (Recommandé)
 
-Les tests level3blocks, level3blocks1, level4t1
-ne compile pas, car mon implémentation de VSL ne supporte pas le shadowing.
-Ce n'est pas une erreur, mais un choix lors de la conception de mon langage.
+Utilisez le fichier compile de la manière suivante :
 
-Les tests level3tab4, level3tab5, level4testheap, level4testtri, test_incompat_proto3, test_incompat_proto4, 
-test_incompat_proto5, test_invalid_call2, test_invalid_call3
-ne compilent pas, car mon implémentation ne supporte pas les paramètres de function de type Tab.
+`./compile chemin/vers/un/fichier/vsl`
 
-Le test level4diverge plante après plusieurs passages dans la boucle, car on déclare une variable qui n'est pas libéré 
-après le bloc, elle est donc déclarée une multitude de fois jusqu'à créer une erreur core dump.
+Cette exécutable compilera le fichier puis l'exécutera.
+
+#### Solution 2
+
+`gradle run --args="chemin/vers/un/fichier/vsl"`
+
+Le désavantage de cette méthode est qu'il est impossible d'exclure les messages de build de gradle qui se place entre l'exécution de Java.
+De plus, celui-ci ne compile que vers LLVM IR, il vous faut donc exécuter clang à la main ensuite.
