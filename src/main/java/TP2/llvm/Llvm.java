@@ -23,11 +23,11 @@ public class Llvm {
         /**
          *  IR instructions to be placed before the code (global definitions)
          */
-        List<Instruction> header;
+        private final List<Instruction> header;
         /**
          *  IR composing the main code
          */
-        List<Instruction> code;
+        private final List<Instruction> code;
 
         public IR() {
             this.header = Llvm.empty();
@@ -48,7 +48,6 @@ public class Llvm {
          * Append two IR.
          * Append the header of the second to the first, and idem for the code
          * @param other the other IR
-         * @return
          */
         public IR append(IR other) {
             header.addAll(other.header);
@@ -59,7 +58,6 @@ public class Llvm {
         /**
          * Append an instruction to the IR's code
          * @param inst the instruction to append
-         * @return
          */
         public IR appendCode(Instruction inst) {
             code.add(inst);
@@ -69,7 +67,6 @@ public class Llvm {
         /**
          * Append an instruction to the IR's header
          * @param inst the instruction to append
-         * @return
          */
         public IR appendHeader(Instruction inst) {
             header.add(inst);
@@ -100,7 +97,6 @@ public class Llvm {
         /**
          * As toString is used to display final result(should not) instead of debug method,
          * I create a "debug" method to replace it
-         * @return
          */
         public String debug() {
             return "header=" + Arrays.toString(header.toArray()) + "],code=[" + Arrays.toString(code.toArray()) + "];";

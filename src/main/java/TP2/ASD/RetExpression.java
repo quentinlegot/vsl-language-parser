@@ -10,19 +10,19 @@ public class RetExpression {
     /**
      * The LLVM IR:
      */
-    public Llvm.IR ir;
+    public final Llvm.IR ir;
 
     // And additional stuff:
 
     /**
      * The type of the expression
      */
-    public Type type;
+    public final Type type;
     /**
      * The name containing the expression's result
      * (either an identifier, or an immediate value)
      */
-    public String result;
+    public final String result;
 
     /**
      * Construct the object returned by toIR() on expressions.

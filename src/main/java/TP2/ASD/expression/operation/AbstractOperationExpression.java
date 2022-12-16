@@ -8,9 +8,9 @@ import TP2.llvm.type.Type;
 
 public abstract class AbstractOperationExpression extends Expression {
 
-    protected Expression left;
-    protected Expression right;
-    protected String ppSymbol;
+    protected final Expression left;
+    protected final Expression right;
+    protected final String ppSymbol;
 
     protected AbstractOperationExpression(Expression left, Expression right, String ppSymbol) {
         this.left = left;

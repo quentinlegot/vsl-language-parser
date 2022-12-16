@@ -9,7 +9,7 @@ public class Affect extends Instruction {
     private final String ident;
     private final String index;
     private final Type type;
-    String value;
+    private final String value;
 
     /**
      * The return instruction
@@ -38,10 +38,10 @@ public class Affect extends Instruction {
                 indexVar = index;
             }
             String str = Utils.indent(indent) + tmpVar + " = getelementptr " + tabType + ", " + tabType + "* " + ident + ", i64 0, i32 " + indexVar + "\n";
-            str += Utils.indent(indent) + "store " + innerType.toString() + " " + value + ", " + type.toString() + " " + tmpVar + "\n";
+            str += Utils.indent(indent) + "store " + innerType.toString() + " " + value + ", " + type + " " + tmpVar + "\n";
             return str;
         } else {
-            return Utils.indent(indent) + "store " + type.toString() + " " +  value + ", " + type.toString() + "* " + ident + "\n";
+            return Utils.indent(indent) + "store " + type.toString() + " " +  value + ", " + type + "* " + ident + "\n";
         }
 
     }

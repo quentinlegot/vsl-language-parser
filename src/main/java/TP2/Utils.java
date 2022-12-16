@@ -66,13 +66,13 @@ public class Utils {
   }
 
   /**
-   * Transform escaped newlines ('\' 'n') into newline form suitable for LLVM and append the NUL character (end of string)
+   * Transform escaped newlines ('\', 'n') into newline form suitable for LLVM and append the NUL character (end of string)
    * @param str the input string
    * @return a pair: the new String, and its size (according to LLVM)
    */
   public static LLVMStringConstant stringTransform(String str) {
     Matcher m = re.matcher(str);
-    StringBuffer res = new StringBuffer();
+    StringBuilder res = new StringBuilder();
     int count = 0;
 
     while(m.find()) {
@@ -91,8 +91,8 @@ public class Utils {
    * Return type of stringTransform
    */
   public static class LLVMStringConstant {
-    String str;
-    int length;
+    final String str;
+    final int length;
     LLVMStringConstant(String str, int length) {
       this.str = str;
       this.length = length;

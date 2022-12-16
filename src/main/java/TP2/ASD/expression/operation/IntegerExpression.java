@@ -10,7 +10,9 @@ import TP2.SymbolTable;
  * Concrete class for Expression: constant (integer) case
  */
 public class IntegerExpression extends Expression {
-  private int value;
+
+  private final int value;
+
   public IntegerExpression(int value) {
     this.value = value;
   }

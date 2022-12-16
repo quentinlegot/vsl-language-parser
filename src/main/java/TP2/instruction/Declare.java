@@ -8,8 +8,8 @@ public class Declare extends Instruction {
 
     private final String ident;
     private final int number;
-    private Type type;
-    private String value;
+    private final Type type;
+    private final String value;
 
     /**
      * The return instruction

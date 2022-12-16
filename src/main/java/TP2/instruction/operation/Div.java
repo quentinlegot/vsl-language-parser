@@ -6,10 +6,10 @@ import TP2.llvm.type.Type;
 
 public class Div extends Instruction {
 
-    Type type;
-    String left;
-    String right;
-    String lvalue;
+    private final Type type;
+    private final String left;
+    private final String right;
+    private final String lvalue;
 
     /**
      * The add instruction.

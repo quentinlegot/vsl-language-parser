@@ -25,7 +25,7 @@ public class PrototypeInstruction extends Instruction {
         if(parameters != null) {
             for(int i = 0; i < parameters.size(); i++) {
                 Pair<Type, String> parameter = parameters.get(i);
-                str.append(parameter.a.toLlvmType()).append(" ").append("%" + parameter.b);
+                str.append(parameter.a.toLlvmType()).append(" ").append("%").append(parameter.b);
                 if(i != parameters.size() - 1) {
                     str.append(", ");
                 }

@@ -7,8 +7,8 @@ import TP2.llvm.type.Type;
  * Class representing the return instruction
  */
 public class Return extends Instruction {
-    Type type;
-    String value;
+    private final Type type;
+    private final String value;
 
     /**
      * The return instruction

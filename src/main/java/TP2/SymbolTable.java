@@ -5,6 +5,7 @@ import TP2.ASD.type.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -13,7 +14,7 @@ import java.util.Map;
  * 
  * A symbol table contains a set of ident and the
  * corresponding symbols.
- * 
+ * <p>
  * It can have a parent, containing itself other
  * symbols. If a symbol is not found, the request
  * is forwarded to the parent.
@@ -84,15 +85,15 @@ public class SymbolTable {
   }
 
   public static class FunctionSymbol extends Symbol {
-    Type returnType;
+    private final Type returnType;
     /**
      * arguments is an ordered list of VariableSymbol
      */
-    List<VariableSymbol> arguments;
+    private final List<VariableSymbol> arguments;
     /**
      * false if declared but not defined
      */
-    boolean defined; 
+    private final boolean defined;
 
     /**
      * Declares a function symbol
@@ -136,11 +137,11 @@ public class SymbolTable {
   /**
    * Store the table as a map
    */
-  private Map<String, Symbol> table;
+  private final Map<String, Symbol> table;
   /**
    * Parent table
    */
-  private SymbolTable parent;
+  private final SymbolTable parent;
 
   /**
    * Construct a new symbol table
@@ -189,7 +190,7 @@ public class SymbolTable {
 
   /**
    * Return the symbol corresponding to some name.
-   * 
+   * <p>
    * If not found, this function will forward its call to its parent
    * @param ident the name of the symbol
    * @return the symbol if found or null
@@ -211,6 +212,6 @@ public class SymbolTable {
     if(!(obj instanceof SymbolTable)) return false;
     SymbolTable o = (SymbolTable) obj;
     return o.table.equals(this.table) &&
-      ((o.parent == null && this.parent == null) || o.parent.equals(this.parent));
+      ((o.parent == null && this.parent == null) || Objects.equals(o.parent, this.parent));
   }
 }

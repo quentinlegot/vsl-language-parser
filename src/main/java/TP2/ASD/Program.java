@@ -13,7 +13,8 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 public class Program {
-    LinkedList<AbstractFunctionExpression> functions; // What a program contains. TODO : change when you extend the language
+
+    private final LinkedList<AbstractFunctionExpression> functions;
 
     public Program(LinkedList<AbstractFunctionExpression> functions) {
       this.functions = functions;
@@ -39,7 +40,7 @@ public class Program {
         // check if function main exist
         RetExpression ret = new RetExpression(new Llvm.IR(), new Void(), "");
         if(functions.stream().filter(f -> f.getIdent().equals("main") && f instanceof FunctionExpression).count() != 1) {
-            throw new IllegalArgumentException("function main doesn't exist or exist multiple times, " + functions.toString());
+            throw new IllegalArgumentException("function main doesn't exist or exist multiple times, " + functions);
         }
         ArrayList<AbstractFunctionExpression> copy = new ArrayList<>(functions);
         while(!copy.isEmpty()) {

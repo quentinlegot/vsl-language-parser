@@ -28,7 +28,7 @@ public class ReadExpression extends Expression {
     @Override
     public String pp() {
         StringBuilder str = new StringBuilder("READ ");
-        LinkedList<Pair<String, Expression>> copy = (LinkedList<Pair<String, Expression>>) idents.clone();
+        LinkedList<Pair<String, Expression>> copy = new LinkedList<>(idents);
         while(!copy.isEmpty()) {
             Pair<String, Expression> current = copy.removeFirst();
             str.append("%").append(current.a);
