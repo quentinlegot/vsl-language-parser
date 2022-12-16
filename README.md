@@ -2,6 +2,12 @@
 
 Auteur : Legot Quentin
 
+## Pré-requis
+
+Le projet a été construit avec gradle 7.6 et ne devrait pas fonctionner avec une version inférieure à la version 7.x.
+
+De même, il a été construit avec Java 11 et aussi testé sur java 19, il se peut qu'il fonctionne sur Java 8, mais aucune garantie n'est donnée.
+
 ## Structure de fichiers
 
 La structure mon projet java est celle-ci :
