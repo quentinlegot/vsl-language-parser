@@ -1,14 +1,15 @@
 package TP2.instruction;
 
-import TP2.Llvm;
 import TP2.Utils;
+import TP2.llvm.type.Tab;
+import TP2.llvm.type.Type;
 
 public class Declare extends Instruction {
 
     private final String ident;
     private final int number;
-    Llvm.Type type;
-    String value;
+    private Type type;
+    private String value;
 
     /**
      * The return instruction
@@ -16,7 +17,7 @@ public class Declare extends Instruction {
      * @param type  type of the return value
      * @param value value to be returned
      */
-    public Declare(int indent, Llvm.Type type, String ident, String value, int number) {
+    public Declare(int indent, Type type, String ident, String value, int number) {
         super(indent);
         this.type = type;
         this.ident = ident;
@@ -27,8 +28,8 @@ public class Declare extends Instruction {
     @Override
     public String toString() {
         String str = Utils.indent(indent) + value + ident + " = alloca ";
-        if(type instanceof Llvm.Tab) {
-            Llvm.Tab<?> tab = (Llvm.Tab<?>) type;
+        if(type instanceof Tab) {
+            Tab<?> tab = (Tab<?>) type;
             str += "[" + number + " x " + tab.type + "]\n";
         }
         else {

@@ -1,7 +1,5 @@
 package TP2.ASD.type;
 
-import TP2.Llvm;
-
 public class Void extends Type {
     @Override
     public String pp() {
@@ -9,8 +7,8 @@ public class Void extends Type {
     }
 
     @Override
-    public Llvm.Type toLlvmType() {
-        return new Llvm.Void();
+    public TP2.llvm.type.Type toLlvmType() {
+        return new TP2.llvm.type.Void();
     }
 
     @Override

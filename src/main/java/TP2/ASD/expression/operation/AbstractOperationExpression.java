@@ -4,6 +4,7 @@ import TP2.ASD.expression.Expression;
 import TP2.ASD.RetExpression;
 import TP2.*;
 import TP2.instruction.Instruction;
+import TP2.llvm.type.Type;
 
 public abstract class AbstractOperationExpression extends Expression {
 
@@ -36,5 +37,5 @@ public abstract class AbstractOperationExpression extends Expression {
         return new RetExpression(leftRet.ir, leftRet.type, result);
     }
 
-    protected abstract Instruction operationInstruction(int indent, Llvm.Type type, String leftResult, String rightResult, String tmpVar);
+    protected abstract Instruction operationInstruction(int indent, Type type, String leftResult, String rightResult, String tmpVar);
 }

@@ -1,13 +1,14 @@
 package TP2.instruction;
 
-import TP2.Llvm;
 import TP2.Utils;
+import TP2.llvm.type.Tab;
+import TP2.llvm.type.Type;
 
 public class Affect extends Instruction {
 
     private final String ident;
     private final String index;
-    Llvm.Type type;
+    private final Type type;
     String value;
 
     /**
@@ -15,7 +16,7 @@ public class Affect extends Instruction {
      * @param type type of the return value
      * @param value value to be returned
      */
-    public Affect(int indent, Llvm.Type type, String ident, String value, String index) {
+    public Affect(int indent, Type type, String ident, String value, String index) {
         super(indent);
         this.type = type;
         this.ident = ident;
@@ -25,8 +26,8 @@ public class Affect extends Instruction {
 
     @Override
     public String toString() {
-        if(type instanceof Llvm.Tab) {
-            Llvm.Type innerType = ((Llvm.Tab<?>) type).getInnerType();
+        if(type instanceof Tab) {
+            Type innerType = ((Tab<?>) type).getInnerType();
             String tmpVar = Utils.newtmp();
             String indexVar;
             Object tabType =  "[" + type.getSize() + " x " + innerType + "]";

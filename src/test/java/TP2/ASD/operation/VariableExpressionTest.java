@@ -8,6 +8,7 @@ import TP2.ASD.type.Tab;
 import TP2.*;
 import TP2.instruction.Instruction;
 import TP2.instruction.operation.LoadVariable;
+import TP2.llvm.Llvm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ public class VariableExpressionTest {
         String tmpVar = Utils.newtmp();
         RetExpression ret = new RetExpression(new Llvm.IR(), new Int(), tmpVar);
         table.add(new SymbolTable.VariableSymbol(new Int(), "%" + name1));
-        Instruction variable1Load = new LoadVariable(0, tmpVar, new Llvm.Int(), "%" + name1);
+        Instruction variable1Load = new LoadVariable(0, tmpVar, new TP2.llvm.type.Int(), "%" + name1);
         ret.ir.appendCode(variable1Load);
         Utils.resetCounter();
         Assertions.assertEquals(ret, varExpression1.toIR(table, 0));
@@ -53,7 +54,7 @@ public class VariableExpressionTest {
         table2.add(new SymbolTable.VariableSymbol(new Tab<>(new Int(), 5), "%" + name2));
         RetExpression index = tabContent2.toIR(table2, 0);
         ret2.ir.append(index.ir);
-        Instruction variable2Load = new LoadVariable(0, tmpVar2, new Llvm.Tab<>(new Llvm.Int(), 5), "%" + name2, index.result);
+        Instruction variable2Load = new LoadVariable(0, tmpVar2, new TP2.llvm.type.Tab<>(new TP2.llvm.type.Int(), 5), "%" + name2, index.result);
         ret2.ir.appendCode(variable2Load);
         Utils.resetCounter();
         Assertions.assertEquals(ret2, varExpression2.toIR(table2, 0));

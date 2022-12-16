@@ -1,7 +1,5 @@
 package TP2.ASD.type;
 
-import TP2.Llvm;
-
 public class Tab<E extends Type> extends Type {
 
     private final E type;
@@ -18,8 +16,8 @@ public class Tab<E extends Type> extends Type {
     }
 
     @Override
-    public Llvm.Type toLlvmType() {
-        return new Llvm.Tab<>(type.toLlvmType(), size);
+    public TP2.llvm.type.Type toLlvmType() {
+        return new TP2.llvm.type.Tab<>(type.toLlvmType(), size);
     }
 
     @Override

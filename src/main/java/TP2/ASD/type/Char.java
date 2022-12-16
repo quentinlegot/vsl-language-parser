@@ -1,7 +1,5 @@
 package TP2.ASD.type;
 
-import TP2.Llvm;
-
 public class Char extends Type {
 
     @Override
@@ -10,8 +8,8 @@ public class Char extends Type {
     }
 
     @Override
-    public Llvm.Type toLlvmType() {
-        return new Llvm.Char();
+    public TP2.llvm.type.Type toLlvmType() {
+        return new TP2.llvm.type.Char();
     }
 
     @Override

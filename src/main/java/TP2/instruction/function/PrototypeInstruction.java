@@ -2,18 +2,17 @@ package TP2.instruction.function;
 
 import TP2.ASD.type.Type;
 import TP2.instruction.Instruction;
-import TP2.Llvm;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.LinkedList;
 
 public class PrototypeInstruction extends Instruction {
 
-    private final Llvm.Type type;
+    private final TP2.llvm.type.Type type;
     private final String ident;
     private final LinkedList<Pair<Type, String>> parameters;
 
-    public PrototypeInstruction(int indent, Llvm.Type type, String ident, LinkedList<Pair<Type, String>> parameters) {
+    public PrototypeInstruction(int indent, TP2.llvm.type.Type type, String ident, LinkedList<Pair<Type, String>> parameters) {
         super(indent);
         this.type = type;
         this.ident = ident;

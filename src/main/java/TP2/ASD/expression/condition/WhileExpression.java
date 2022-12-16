@@ -8,6 +8,7 @@ import TP2.instruction.condition.IcmpInstruction;
 import TP2.instruction.condition.LabelInstruction;
 import TP2.instruction.condition.UnconditionalJump;
 import TP2.instruction.Instruction;
+import TP2.llvm.Llvm;
 
 public class WhileExpression extends Expression {
 

@@ -10,6 +10,8 @@ import TP2.ASD.type.Int;
 import TP2.*;
 import TP2.instruction.function.FunctionCallInstruction;
 import TP2.instruction.Instruction;
+import TP2.llvm.Llvm;
+import TP2.llvm.type.Type;
 import org.antlr.v4.runtime.misc.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +53,7 @@ public class FunctionCallTest {
         SymbolTable.FunctionSymbol fSymbol = new SymbolTable.FunctionSymbol(new Int(), "@" + fName, args, true);
         table.add(fSymbol);
         String tmpVar = Utils.newtmp();
-        List<Pair<Llvm.Type, String>> parametersList = new ArrayList<>();
+        List<Pair<Type, String>> parametersList = new ArrayList<>();
         RetExpression ret = new RetExpression(new Llvm.IR(), new Int(), tmpVar);
         for(Expression parameter : parameters) {
             RetExpression parRet = parameter.toIR(table, 0);

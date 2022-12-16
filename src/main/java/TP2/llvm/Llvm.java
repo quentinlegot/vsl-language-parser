@@ -1,4 +1,4 @@
-package TP2;
+package TP2.llvm;
 
 import TP2.instruction.Instruction;
 
@@ -11,6 +11,14 @@ import java.util.List;
  * and methods to generate its string representation
  */
 public class Llvm {
+
+    /**
+     * Returns a new empty list of instruction, handy
+     */
+    public static List<Instruction> empty() {
+        return new ArrayList<>();
+    }
+
     public static class IR {
         /**
          *  IR instructions to be placed before the code (global definitions)
@@ -111,125 +119,5 @@ public class Llvm {
         }
     }
 
-    /**
-     * Returns a new empty list of instruction, handy
-     */
-    public static List<Instruction> empty() {
-        return new ArrayList<>();
-    }
-
-
-    // LLVM Types
-
-    /**
-     * The abstract type representing the LLVM types
-     */
-    public abstract static class Type {
-        public abstract String toString();
-
-        public int getSize() {
-            return 1; // default value
-        }
-    }
-
-    public static class Void extends Type {
-
-        @Override
-        public String toString() {
-            return "void";
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return obj instanceof Void;
-        }
-    }
-
-    public static class Int extends Type {
-        public String toString() {
-            return "i32";
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return obj instanceof Int;
-        }
-    }
-
-    public static class Tab<E extends Type> extends Type {
-
-        public final E type;
-        private final int size;
-
-        public Tab(E type, int size) {
-            this.type = type;
-            this.size = size;
-        }
-
-        public E getInnerType() {
-            return type;
-        }
-
-        @Override
-        public int getSize() {
-            return size;
-        }
-
-        @Override
-        public String toString() {
-            return type + "*";
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if(obj == this)
-                return true;
-            if(obj == null)
-                return false;
-            if(!(obj instanceof Tab<?>))
-                return false;
-            Tab<?> o = (Tab<?>) obj;
-            return this.size == o.size && this.type.equals(o.type);
-        }
-    }
-
-    public static class Char extends Type {
-
-        @Override
-        public String toString() {
-            return "i8";
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return obj instanceof Char;
-        }
-    }
-
-    public static class Ptr<E extends Type> extends Type {
-
-        private final E type;
-
-        public Ptr(E type) {
-            this.type = type;
-        }
-
-        @Override
-        public String toString() {
-            return type.toString() + "*";
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if(obj == this)
-                return true;
-            if(obj == null)
-                return false;
-            if(!(obj instanceof Ptr<?>))
-                return false;
-            Ptr<?> o = (Ptr<?>) obj;
-            return this.type.equals(o.type);
-        }
-    }
 
 }

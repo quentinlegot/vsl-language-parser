@@ -4,14 +4,13 @@ import TP2.ASD.expression.function.AbstractFunctionExpression;
 import TP2.ASD.expression.function.FunctionExpression;
 import TP2.ASD.expression.function.PrototypeExpression;
 import TP2.ASD.type.Void;
-import TP2.Llvm;
+import TP2.llvm.Llvm;
 import TP2.SymbolTable;
 import TP2.TypeException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class Program {
     LinkedList<AbstractFunctionExpression> functions; // What a program contains. TODO : change when you extend the language

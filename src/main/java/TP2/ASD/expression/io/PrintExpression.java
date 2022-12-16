@@ -8,6 +8,9 @@ import TP2.*;
 import TP2.instruction.DeclareGlobalVarInstruction;
 import TP2.instruction.Instruction;
 import TP2.instruction.PrintInstruction;
+import TP2.llvm.type.Char;
+import TP2.llvm.Llvm;
+import TP2.llvm.type.Type;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ public class PrintExpression extends Expression {
     public RetExpression toIR(SymbolTable table, int indent) throws TypeException {
         RetExpression ret = new RetExpression(new Llvm.IR(), new Void(), "");
         StringBuilder str = new StringBuilder();
-        List<Pair<Llvm.Type, String>> parameters = new ArrayList<>();
+        List<Pair<Type, String>> parameters = new ArrayList<>();
         for (Expression expression : content) {
             if (expression instanceof StringExpression) {
                 str.append(expression.toIR(table, indent).result);
@@ -56,7 +59,7 @@ public class PrintExpression extends Expression {
         }
         Utils.LLVMStringConstant result = Utils.stringTransform(str.toString());
         String globalVar = Utils.newglob("fmt");
-        Instruction globalIns = new DeclareGlobalVarInstruction(globalVar, result.getStr(), result.getLength(), new Llvm.Char());
+        Instruction globalIns = new DeclareGlobalVarInstruction(globalVar, result.getStr(), result.getLength(), new Char());
         ret.ir.appendHeader(globalIns);
         Instruction printIns = new PrintInstruction(indent, result, globalVar, parameters);
         ret.ir.appendCode(printIns);

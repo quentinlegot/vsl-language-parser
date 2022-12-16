@@ -8,6 +8,7 @@ import TP2.*;
 import TP2.ASD.type.Type;
 import TP2.instruction.Instruction;
 import TP2.instruction.operation.LoadVariable;
+import TP2.llvm.Llvm;
 
 public class VariableExpression extends Expression {
 

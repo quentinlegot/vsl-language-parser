@@ -1,16 +1,16 @@
 package TP2.instruction;
 
-import TP2.Llvm;
 import TP2.Utils;
+import TP2.llvm.type.Tab;
 
 public class getTabPtrInstruction extends Instruction {
 
     private final String tmpVar;
-    private final Llvm.Tab<?> type;
+    private final Tab<?> type;
     private final String index;
     private final String name;
 
-    public getTabPtrInstruction(int indent, String tmpVar, Llvm.Tab<?> type, String name, String index) {
+    public getTabPtrInstruction(int indent, String tmpVar, Tab<?> type, String name, String index) {
         super(indent);
         this.tmpVar = tmpVar;
         this.type = type;

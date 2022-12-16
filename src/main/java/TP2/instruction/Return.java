@@ -1,14 +1,13 @@
 package TP2.instruction;
 
-import TP2.Llvm;
 import TP2.Utils;
-import TP2.instruction.Instruction;
+import TP2.llvm.type.Type;
 
 /**
  * Class representing the return instruction
  */
 public class Return extends Instruction {
-    Llvm.Type type;
+    Type type;
     String value;
 
     /**
@@ -16,7 +15,7 @@ public class Return extends Instruction {
      * @param type type of the return value
      * @param value value to be returned
      */
-    public Return(int indent, Llvm.Type type, String value) {
+    public Return(int indent, Type type, String value) {
         super(indent);
         this.type = type;
         this.value = value;

@@ -1,15 +1,15 @@
 package TP2.instruction;
 
-import TP2.Llvm;
+import TP2.llvm.type.Type;
 
 public class DeclareGlobalVarInstruction extends Instruction {
 
     private final String content;
     private final int length;
     private final String name;
-    private final Llvm.Type type;
+    private final Type type;
 
-    public DeclareGlobalVarInstruction(String name, String content, int length, Llvm.Type type) {
+    public DeclareGlobalVarInstruction(String name, String content, int length, Type type) {
         super(0);
         this.name = name;
         this.content = content;

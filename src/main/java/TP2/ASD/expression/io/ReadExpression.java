@@ -10,6 +10,9 @@ import TP2.instruction.DeclareGlobalVarInstruction;
 import TP2.instruction.Instruction;
 import TP2.instruction.ReadInstruction;
 import TP2.instruction.getTabPtrInstruction;
+import TP2.llvm.type.Char;
+import TP2.llvm.Llvm;
+import TP2.llvm.type.Ptr;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.LinkedList;
@@ -47,7 +50,7 @@ public class ReadExpression extends Expression {
                 SymbolTable.VariableSymbol variableSymbol = (SymbolTable.VariableSymbol) symbol;
                 Utils.LLVMStringConstant result = Utils.stringTransform("%d");
                 String globalVar = Utils.newglob("fmt");
-                Instruction globalIns = new DeclareGlobalVarInstruction(globalVar, result.getStr(), result.getLength(), new Llvm.Char());
+                Instruction globalIns = new DeclareGlobalVarInstruction(globalVar, result.getStr(), result.getLength(), new Char());
                 ret.ir.appendHeader(globalIns);
                 String tmp = "%" + ident.a;
                 Type insType = variableSymbol.getType();
@@ -55,11 +58,11 @@ public class ReadExpression extends Expression {
                     RetExpression tab = ident.b.toIR(table, indent);
                     ret.ir.append(tab.ir);
                     tmp = Utils.newtmp();
-                    Instruction ptrIns = new getTabPtrInstruction(indent, tmp, (Llvm.Tab<?>) variableSymbol.getType().toLlvmType(), "%" + ident.a, tab.result);
+                    Instruction ptrIns = new getTabPtrInstruction(indent, tmp, (TP2.llvm.type.Tab<?>) variableSymbol.getType().toLlvmType(), "%" + ident.a, tab.result);
                     ret.ir.appendCode(ptrIns);
                     insType = tab.type;
                 }
-                Instruction ins = new ReadInstruction(indent, result, globalVar, new Pair<>(new Llvm.Ptr<>(insType.toLlvmType()), tmp));
+                Instruction ins = new ReadInstruction(indent, result, globalVar, new Pair<>(new Ptr<>(insType.toLlvmType()), tmp));
                 ret.ir.appendCode(ins);
             } else {
                 throw new IllegalArgumentException(ident + " doesn't exist or isn't a variable");

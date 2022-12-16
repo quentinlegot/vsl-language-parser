@@ -1,7 +1,5 @@
 package TP2.ASD.type;
 
-import TP2.Llvm;
-
 public class Int extends Type {
     public String pp() {
       return "INT";
@@ -11,8 +9,8 @@ public class Int extends Type {
       return obj instanceof Int;
     }
 
-    public Llvm.Type toLlvmType() {
-      return new Llvm.Int();
+    public TP2.llvm.type.Type toLlvmType() {
+      return new TP2.llvm.type.Int();
     }
 
   }

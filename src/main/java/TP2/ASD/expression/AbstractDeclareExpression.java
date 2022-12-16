@@ -7,6 +7,7 @@ import TP2.*;
 import TP2.instruction.Affect;
 import TP2.instruction.Declare;
 import TP2.instruction.Instruction;
+import TP2.llvm.Llvm;
 
 import java.util.LinkedList;
 

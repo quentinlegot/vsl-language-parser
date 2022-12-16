@@ -1,7 +1,7 @@
 package TP2.ASD;
 
 import TP2.ASD.type.Type;
-import TP2.Llvm;
+import TP2.llvm.Llvm;
 
 /**
  * Object returned by toIR on expressions, with IR + synthesized attributes

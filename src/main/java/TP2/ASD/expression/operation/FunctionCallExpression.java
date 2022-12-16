@@ -6,6 +6,8 @@ import TP2.ASD.type.Void;
 import TP2.*;
 import TP2.instruction.function.FunctionCallInstruction;
 import TP2.instruction.Instruction;
+import TP2.llvm.Llvm;
+import TP2.llvm.type.Type;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class FunctionCallExpression extends Expression {
         if(symbol instanceof SymbolTable.FunctionSymbol) {
             SymbolTable.FunctionSymbol functionSymbol = (SymbolTable.FunctionSymbol) symbol;
             // check arguments
-            List<Pair<Llvm.Type, String>> parametersList = new ArrayList<>();
+            List<Pair<Type, String>> parametersList = new ArrayList<>();
             String tmpVar = "";
             if(!functionSymbol.getReturnType().equals(new Void())) {
                 tmpVar = Utils.newtmp();
