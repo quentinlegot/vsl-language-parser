@@ -15,6 +15,8 @@ La structure mon projet java est celle-ci :
   - Contient les types d'expression de l'ASD (Int, Void, Char, etc.)
 - TP2.instruction
   - Contient Toutes les instructions LLVM appelées par les expressions
+- TP2.llvm
+  - Contient toutes les classes en lien avec Llvm
 
 ## Remarque d'implémentation
 
