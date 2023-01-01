@@ -1,11 +1,11 @@
-# TP2 PDS, version Java
+# VSL language parser
 
-Ce dépôt contient l'ensemble des fichiers dont vous avez besoin pour travailler
-sur le TP2 de PDS, si vous avez choisi de travailler en Java. Vous devez le
-forker pour pouvoir le modifier : le bouton se situe en haut de l'interface
-Gitlab.
+Project I did myself for college courses.
 
-**Attention !** Vous devez passer votre fork en *privé*.
+This project is a parser for the VSL language.
 
-[comment]: <> (La version OCaml se situe dans un dépôt séparé :)
-[comment]: <> (https://gitlab.istic.univ-rennes1.fr/cferry/PDS-TP2-ocaml.git.)
+Your VSL program is parsed into LLVM IR which will compile your code in a machine code.
+
+The project is incomplete as one feature is missing : table as function parameter
+
+Due to the missing of this feature some test actually don't pass.
