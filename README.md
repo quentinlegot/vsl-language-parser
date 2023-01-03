@@ -1,39 +1,11 @@
-# TP2 PDS, version Java
+# VSL language parser
 
-Auteur : Legot Quentin
+Project I did myself for college courses.
 
-## Pré-requis
+This project is a parser for the VSL language.
 
-Le projet a été construit avec gradle 7.6 et ne devrait pas fonctionner avec une version inférieure à la version 7.x.
+Your VSL program is parsed into LLVM IR which will compile your code in a machine code.
 
-De même, il a été construit avec Java 11 et aussi testé sur java 19, il se peut qu'il fonctionne sur Java 8, mais aucune garantie n'est donnée.
+The project is incomplete as one feature is missing : table as function parameter
 
-## Utilisation
-
-### Construire le projet
-
-Exécutez la commande suivante:
-
-`gradle build`
-
-Le résultat apparait dans `build/libs`.
-
-### Lancer le projet
-
-
-Plusieurs solutions :
-
-#### Solution 1 (Recommandé)
-
-Utilisez le fichier compile de la manière suivante :
-
-`./compile chemin/vers/un/fichier/vsl`
-
-Cette exécutable compilera le fichier puis l'exécutera.
-
-#### Solution 2
-
-`gradle run --args="chemin/vers/un/fichier/vsl"`
-
-Le désavantage de cette méthode est qu'il est impossible d'exclure les messages de build de gradle qui se place entre l'exécution de Java.
-De plus, celui-ci ne compile que vers LLVM IR, il vous faut donc exécuter clang à la main ensuite.
+Due to the missing of this feature some test actually don't pass.
